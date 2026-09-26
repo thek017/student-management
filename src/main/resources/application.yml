@@ -25,3 +25,12 @@ springdoc:
     path: /swagger-ui.html
     try-it-out-enabled: true
     operations-sorter: method
+    
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
