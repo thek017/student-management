@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    url: jdbc:mysql://prod-db-server:3306/student_prod
+    username: ${PROD_DB_USER} # Security: Env variable se lega!
+    password: ${PROD_DB_PASS}
+  jpa:
+    hibernate:
+      ddl-auto: validate # Prod mein schema edit NAHI hoga!
+    show-sql: false # SQL logs hidden for performance & security!
+
+logging:
+  level:
+    root: ERROR # Prod mein sirf errors log honge!
