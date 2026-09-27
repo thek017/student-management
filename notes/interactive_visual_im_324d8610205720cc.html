@@ -1,0 +1,3807 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Spring Boot Backend Mastery — Complete Study Notes & Reference</title>
+  
+  <!-- Luminous Core Font Dependencies -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Code:ital,wght@0,400..700;1,400..700&family=Google+Sans+Flex:wght@100..1000&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+
+  <style id="model-style">
+    /* ==========================================================================
+       Luminous Design System — Core Tokens & Base Styles
+       ========================================================================== */
+    :root, .lumi-theme-light {
+      --ff-sans: 'Google Sans Flex', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --ff-mono: 'Google Sans Code', SFMono-Regular, Consolas, 'Liberation Mono', monospace;
+
+      --body-bg: #fdfcfc;
+      --surface: #fdfcfc;
+      --surface-dim: #f2f0f0;
+      --surface-bright: #ffffff;
+      --surface-container: #f2f0f0;
+      --surface-container-high: #e6e6e6;
+      
+      --on-surface: #0f172a;
+      --on-surface-variant: rgba(15, 23, 42, 0.65);
+      --on-surface-low: rgba(15, 23, 42, 0.08);
+
+      --positive: #008052;
+      --positive-container: #daf9d4;
+      --error: #de2d29;
+      --error-container: #ffdeec;
+
+      --accent: #dcf1ff;
+      --accent-container: #dcf1ff;
+      --accent-fixed: #2563eb;
+      --primary: #2563eb;
+      --primary-container: #dcf1ff;
+
+      --outline: #64748b;
+      --stroke-default: #e2e8f0;
+
+      --chart-1: #2563eb;
+      --chart-2: #4f46e5;
+      --chart-3: #059669;
+      --chart-4: #d97706;
+      --chart-5: #0284c7;
+      --chart-6: #7c3aed;
+      --chart-7: #db2777;
+
+      --r-s: 8px;
+      --r-m: 12px;
+      --r-l: 16px;
+      --r-full: 999px;
+
+      --spacing-xs: 4px;
+      --spacing-s: 8px;
+      --spacing-m: 12px;
+      --spacing-l: 16px;
+      --spacing-xl: 20px;
+    }
+
+    .lumi-theme-dark {
+      --body-bg: #0f172a;
+      --surface: #0f172a;
+      --surface-dim: #1e293b;
+      --surface-bright: #1e293b;
+      --surface-container: #1e293b;
+      --surface-container-high: #334155;
+
+      --on-surface: #f8fafc;
+      --on-surface-variant: rgba(248, 250, 252, 0.7);
+      --on-surface-low: rgba(248, 250, 252, 0.12);
+
+      --positive: #10b981;
+      --positive-container: #064e3b;
+      --error: #f87171;
+      --error-container: #7f1d1d;
+
+      --accent: #1e3a8a;
+      --accent-container: #1e3a8a;
+      --accent-fixed: #60a5fa;
+      --primary: #60a5fa;
+      --primary-container: #1e3a8a;
+
+      --outline: #94a3b8;
+      --stroke-default: #334155;
+
+      --chart-1: #60a5fa;
+      --chart-2: #818cf8;
+      --chart-3: #34d399;
+      --chart-4: #fbbf24;
+      --chart-5: #38bdf8;
+      --chart-6: #a78bfa;
+      --chart-7: #f472b6;
+    }
+
+    /* Reset & Base Canvas */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-family: var(--ff-sans); background-color: var(--body-bg); color: var(--on-surface); scroll-behavior: smooth; }
+    body { background-color: var(--body-bg); color: var(--on-surface); min-height: 100vh; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+
+    /* Layout Structure */
+    .app-container { max-width: 1080px; margin: 0 auto; padding: 32px 24px 64px; }
+    
+    /* Header & Navigation Toolbar */
+    .app-header { margin-bottom: 32px; border-bottom: 1px solid var(--stroke-default); padding-bottom: 24px; }
+    .header-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 16px; flex-wrap: wrap; }
+    .app-title-group h1 { font-size: 32px; font-weight: 700; tracking: -0.02em; color: var(--on-surface); line-height: 1.2; }
+    .app-title-group p { font-size: 15px; color: var(--on-surface-variant); margin-top: 4px; }
+    
+    .toolbar-actions { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+    
+    /* Utility Controls */
+    .lumi-btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      min-height: 40px; padding: 0 16px; border-radius: var(--r-m); font-family: var(--ff-sans);
+      font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.15s ease; border: none; outline: none;
+    }
+    .lumi-btn--accent { background-color: var(--accent-fixed); color: #ffffff; }
+    .lumi-btn--accent:hover { opacity: 0.9; transform: translateY(-1px); }
+    .lumi-btn--tonal { background-color: var(--surface-dim); color: var(--on-surface); }
+    .lumi-btn--tonal:hover { background-color: var(--surface-container-high); }
+    .lumi-btn--xsmall { min-height: 28px; padding: 0 10px; font-size: 12px; border-radius: var(--r-s); }
+
+    /* Search & Filter Bar */
+    .search-filter-row { display: flex; gap: 16px; margin-top: 20px; align-items: center; flex-wrap: wrap; }
+    .search-input-wrapper { flex: 1; min-width: 260px; position: relative; }
+    .search-input-wrapper .material-symbols-outlined { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--on-surface-variant); font-size: 20px; }
+    .lumi-input {
+      width: 100%; height: 44px; padding: 0 16px 0 40px; background: var(--surface-bright);
+      border: 1px solid var(--stroke-default); border-radius: var(--r-m); color: var(--on-surface);
+      font-family: var(--ff-sans); font-size: 14px; outline: none; transition: border-color 0.15s;
+    }
+    .lumi-input:focus { border-color: var(--accent-fixed); }
+
+    /* Phase Selector Tabs */
+    .lumi-tab-bar { display: flex; gap: 8px; border-bottom: 1px solid var(--stroke-default); margin-bottom: 32px; overflow-x: auto; padding-bottom: 2px; }
+    .lumi-tab {
+      background: none; border: none; padding: 12px 16px; font-family: var(--ff-sans); font-size: 15px;
+      font-weight: 500; color: var(--on-surface-variant); cursor: pointer; border-bottom: 2px solid transparent;
+      white-space: nowrap; transition: all 0.15s ease; display: flex; align-items: center; gap: 8px;
+    }
+    .lumi-tab:hover { color: var(--on-surface); }
+    .lumi-tab.active { color: var(--accent-fixed); border-bottom-color: var(--accent-fixed); font-weight: 600; }
+    .lumi-tab .badge { font-size: 11px; padding: 2px 6px; border-radius: var(--r-full); background: var(--surface-dim); color: var(--on-surface-variant); }
+    .lumi-tab.active .badge { background: var(--primary-container); color: var(--accent-fixed); }
+
+    /* Topic Section Cards & Containers */
+    .phase-content { display: none; }
+    .phase-content.active { display: block; }
+
+    .topic-card { margin-bottom: 40px; }
+    .topic-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; border-bottom: 1px solid var(--on-surface-low); padding-bottom: 8px; }
+    .topic-title { font-size: 22px; font-weight: 700; color: var(--on-surface); display: flex; align-items: center; gap: 10px; }
+    .topic-tag { font-family: var(--ff-mono); font-size: 12px; padding: 2px 8px; border-radius: var(--r-s); background: var(--surface-dim); color: var(--accent-fixed); }
+
+    /* HUD Dashboard Metrics Strip */
+    .lumi-dashboard-hud { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 32px; }
+    .hud-pill { background: var(--surface-dim); padding: 16px; border-radius: var(--r-m); border: 1px solid var(--stroke-default); }
+    .hud-label { font-size: 12px; color: var(--on-surface-variant); text-transform: uppercase; font-family: var(--ff-mono); letter-spacing: 0.05em; display: block; }
+    .hud-value { font-size: 24px; font-weight: 700; color: var(--on-surface); margin-top: 4px; display: block; }
+
+    /* Typography & Content Styles */
+    h3 { font-size: 18px; font-weight: 600; margin: 24px 0 12px; color: var(--on-surface); }
+    p { font-size: 15px; color: var(--on-surface); margin-bottom: 12px; }
+    ul, ol { margin: 12px 0 16px 24px; font-size: 15px; }
+    li { margin-bottom: 6px; }
+    strong { font-weight: 600; color: var(--on-surface); }
+    code { font-family: var(--ff-mono); font-size: 13px; background: var(--surface-dim); padding: 2px 6px; border-radius: 4px; color: var(--accent-fixed); }
+
+    /* Custom Tables */
+    .lumi-table-widget { margin: 20px 0; overflow-x: auto; border: 1px solid var(--stroke-default); border-radius: var(--r-m); }
+    .lumi-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; }
+    .lumi-table th { background: var(--surface-dim); padding: 12px 16px; font-weight: 600; color: var(--on-surface); border-bottom: 1px solid var(--stroke-default); white-space: nowrap; }
+    .lumi-table td { padding: 12px 16px; border-bottom: 1px solid var(--stroke-default); vertical-align: top; }
+    .lumi-table tr:last-child td { border-bottom: none; }
+    .lumi-table tr:nth-child(even) { background-color: rgba(0,0,0,0.015); }
+    .lumi-theme-dark .lumi-table tr:nth-child(even) { background-color: rgba(255,255,255,0.02); }
+
+    /* Code Block Containers */
+    .lumi-code-block { margin: 20px 0; background: #0f172a; border-radius: var(--r-m); overflow: hidden; border: 1px solid var(--stroke-default); }
+    .lumi-code-header { display: flex; justify-content: space-between; align-items: center; padding: 10px 16px; background: #1e293b; border-bottom: 1px solid #334155; }
+    .lumi-code-lang { font-family: var(--ff-mono); font-size: 12px; color: #94a3b8; font-weight: 500; text-transform: uppercase; }
+    .lumi-code-copy { background: none; border: none; color: #94a3b8; cursor: pointer; display: flex; align-items: center; gap: 4px; font-size: 12px; font-family: var(--ff-sans); }
+    .lumi-code-copy:hover { color: #f8fafc; }
+    .lumi-code-snippet { padding: 16px; overflow-x: auto; font-family: var(--ff-mono); font-size: 13px; line-height: 1.6; color: #f8fafc; margin: 0; white-space: pre; }
+
+    /* Syntax Highlighting */
+    .kw { color: #f472b6; font-weight: 600; } /* KeyWords */
+    .ann { color: #38bdf8; font-weight: 600; } /* Annotations */
+    .cls { color: #fbbf24; } /* Class names */
+    .str { color: #34d399; } /* Strings */
+    .cmt { color: #64748b; font-style: italic; } /* Comments */
+    .fn { color: #818cf8; } /* Functions */
+
+    /* Open-Canvas Callouts */
+    .lumi-callout { margin: 20px 0; padding: 16px; background: var(--surface-dim); border-left: 4px solid var(--accent-fixed); border-radius: 0 var(--r-m) var(--r-m) 0; }
+    .lumi-callout-title { font-weight: 600; font-size: 14px; color: var(--on-surface); margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
+    .lumi-callout-body { font-size: 14px; color: var(--on-surface-variant); margin: 0; }
+
+    /* Sequence Steps */
+    .lumi-sequence { list-style: none; margin: 20px 0; padding: 0; }
+    .lumi-seq-step { display: flex; gap: 16px; margin-bottom: 20px; position: relative; }
+    .lumi-seq-step::after { content: ''; position: absolute; left: 14px; top: 32px; bottom: -20px; width: 2px; background: var(--stroke-default); }
+    .lumi-seq-step:last-child::after { display: none; }
+    .lumi-seq-num { width: 30px; height: 30px; border-radius: 50%; border: 2px solid var(--accent-fixed); color: var(--accent-fixed); font-family: var(--ff-mono); font-weight: 700; font-size: 13px; display: flex; align-items: center; justify-content: center; background: var(--surface); flex-shrink: 0; z-index: 1; }
+    .lumi-seq-content { flex: 1; pt: 4px; }
+
+    /* Search Highlight & Print Styles */
+    .highlight { background-color: rgba(37, 99, 235, 0.2); border-radius: 2px; padding: 0 2px; }
+
+    @media print {
+      body { background: white !important; color: black !important; }
+      .toolbar-actions, .search-filter-row, .lumi-tab-bar, .lumi-code-copy { display: none !important; }
+      .phase-content { display: block !important; page-break-after: always; }
+      .lumi-code-block { background: #f8fafc !important; color: black !important; border: 1px solid #ccc !important; }
+      .lumi-code-snippet { color: black !important; }
+      .kw, .ann, .cls, .str, .fn { color: black !important; font-weight: bold !important; }
+    }
+  </style>
+
+<style id="lumi-runtime">
+/* luminous.css */
+/*
+ * Luminous runtime stylesheet — injected once into every generated widget's
+ * <head> by the C++ widget agent (id="lumi-runtime"). Single Source of Truth
+ * for ALL design tokens and pre-baked .lumi-* component classes. The SI prompts
+ * (design.md / html_generation.jinja2 / chart.jinja2) must NOT re-declare these
+ * tokens or component CSS; they only reference them.
+ *
+ * Sections:
+ *   1. Web fonts (Google Sans Flex + Google Sans Code)
+ *   2. Light token :root (from previewer tokens.css, verbatim)
+ *   3. Dark token overrides — REMAPPED to :root so canvas/D3 readers of
+ *      getComputedStyle(document.documentElement) resolve dark values (D3).
+ *   4. Short diagram/chart aliases (bridge legacy --surface / --chart-N names).
+ *   5. In-scope pre-baked .lumi-* component classes.
+ */
+
+/* ============================================================
+ * 1. WEB FONTS & ICONOGRAPHY
+ *    Loads Google Sans Flex, Google Sans Code, and Material Symbols Outlined.
+ *    Enforces the dual-class iconography rendering protocol.
+ * ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Google+Sans+Flex:ital,wght@0,300..700;1,300..700&family=Google+Sans+Code:ital,wght,MONO@0,300..700,0..1;1,300..700,0..1&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap');
+
+/* Dual-Class Iconography */
+.lumi-icon {
+  font-family: 'Luminous Symbols', 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 20px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+  vertical-align: middle;
+}
+
+.material-icon {
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 20px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-smoothing: antialiased;
+  vertical-align: middle;
+}
+
+/* ============================================================
+ * 2. LIGHT TOKENS (:root)
+ * ============================================================ */
+:root {
+  --body-bg: transparent;
+  --ff-sans: "Google Sans Flex", "Google Sans Text", "Google Sans", "Noto Sans CJK SC", "Noto Sans", "Liberation Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --ff-mono: "Google Sans Code", "Google Sans Mono", "JetBrains Mono", "Liberation Mono", monospace;
+
+  --lumi-sys-spacing--xxs: 2px;
+  --lumi-sys-spacing--xs: 4px;
+  --lumi-sys-spacing--s: 8px;
+  --lumi-sys-spacing--m: 12px;
+  --lumi-sys-spacing--l: 16px;
+  --lumi-sys-spacing--xl: 20px;
+  --lumi-sys-spacing--xxl: 24px;
+  --lumi-sys-spacing--3xl: 28px;
+  --lumi-sys-spacing--4xl: 36px;
+
+  --lumi-sys-shape--none: 0;
+  --lumi-sys-shape--extra-small: 4px;
+  --lumi-sys-shape--small: 8px;
+  --lumi-sys-shape--medium: 12px;
+  --lumi-sys-shape--large: 16px;
+  --lumi-sys-shape--large-increased: 20px;
+  --lumi-sys-shape--large-max: 24px;
+  --lumi-sys-shape--xl: 28px;
+  --lumi-sys-shape--xl-increased: 32px;
+  --lumi-sys-shape--xl-max: 40px;
+  --lumi-sys-shape--xxl: 48px;
+  --lumi-sys-shape--xxl-increased: 56px;
+  --lumi-sys-shape--full: 999px;
+
+  --lumi-sys-elevation--level1: 0 0 20px 0 rgba(0, 0, 0, 0.04);
+  --lumi-sys-elevation--level2: 0 0 20px 0 rgba(0, 0, 0, 0.11);
+
+  --lumi-sys-color--surface: #fdfcfc;
+  --lumi-sys-color--surface-dim: #f2f0f0;
+  --lumi-sys-color--surface-bright: #fff;
+  --lumi-sys-color--surface-background: #fdfcfc;
+  --lumi-sys-color--surface-accent: #9dd2ff;
+  --lumi-sys-color--surface-container: #f2f0f0;
+  --lumi-sys-color--surface-container-high: #e6e6e6;
+  --lumi-sys-color--on-surface: #000;
+  --lumi-sys-color--on-surface-default: #000;
+  --lumi-sys-color--on-surface-variant: rgba(0, 0, 0, 0.55);
+  --lumi-sys-color--on-surface-de-emphasis: rgba(0, 0, 0, 0.55);
+  --lumi-sys-color--on-surface-low: rgba(0, 0, 0, 0.08);
+  --lumi-sys-color--positive: #008052;
+  --lumi-sys-color--positive-container: #daf9d4;
+  --lumi-sys-color--on-positive-container: #009954;
+  --lumi-sys-color--error: #de2d29;
+  --lumi-sys-color--error-container: #ffdeec;
+  --lumi-sys-color--on-error-container: #de2d29;
+  --lumi-sys-color--accent: #9dd2ff;
+  --lumi-sys-color--accent-container: #dcf1ff;
+  --lumi-sys-color--accent-fixed: #3186ff;
+  --lumi-sys-color--primary: #3186ff;
+  --lumi-sys-color--on-primary: #fff;
+  --lumi-sys-color--black: #000;
+  --lumi-sys-color--white: #fff;
+  --lumi-sys-color--outline: #727676;
+  --lumi-sys-color--stroke-default: #e3e3e3;
+
+  /* --- Luminous Typography Tokens: Display (Carbon SSoT) --- */
+  --lumi-sys-typography-type-scale--display-l-font-name: var(--ff-sans);
+  --lumi-sys-typography-type-scale--display-l-font-size: 2.625rem;
+  --lumi-sys-typography-type-scale--display-l-line-height: 3rem;
+  --lumi-sys-typography-type-scale--display-l-font-tracking: 0rem;
+  --lumi-sys-typography-type-scale--display-l-font-weight: 280;
+  --lumi-sys-typography-type-scale--display-l-font-wght: 280;
+  --lumi-sys-typography-type-scale--display-l-font-width: 100;
+  --lumi-sys-typography-type-scale--display-l-font-rond: 100;
+  --lumi-sys-typography-type-scale--display-l-opsz: 42;
+
+  --lumi-sys-typography-type-scale--display-m-font-name: var(--ff-sans);
+  --lumi-sys-typography-type-scale--display-m-font-size: 2.25rem;
+  --lumi-sys-typography-type-scale--display-m-line-height: 2.75rem;
+  --lumi-sys-typography-type-scale--display-m-font-tracking: 0rem;
+  --lumi-sys-typography-type-scale--display-m-font-weight: 320;
+  --lumi-sys-typography-type-scale--display-m-font-wght: 320;
+  --lumi-sys-typography-type-scale--display-m-font-width: 100;
+  --lumi-sys-typography-type-scale--display-m-font-rond: 100;
+  --lumi-sys-typography-type-scale--display-m-opsz: 36;
+
+  --lumi-sys-typography-type-scale--display-s-font-name: var(--ff-sans);
+  --lumi-sys-typography-type-scale--display-s-font-size: 2rem;
+  --lumi-sys-typography-type-scale--display-s-line-height: 2.375rem;
+  --lumi-sys-typography-type-scale--display-s-font-tracking: 0rem;
+  --lumi-sys-typography-type-scale--display-s-font-weight: 360;
+  --lumi-sys-typography-type-scale--display-s-font-wght: 360;
+  --lumi-sys-typography-type-scale--display-s-font-width: 100;
+  --lumi-sys-typography-type-scale--display-s-font-rond: 100;
+  --lumi-sys-typography-type-scale--display-s-opsz: 32;
+
+  /* --- Luminous Typography Tokens: Headline (Carbon SSoT) --- */
+  --lumi-sys-typography-type-scale--headline-l-font-name: var(--ff-sans);
+  --lumi-sys-typography-type-scale--headline-l-font-size: 1.75rem;
+  --lumi-sys-typography-type-scale--headline-l-line-height: 2.25rem;
+  --lumi-sys-typography-type-scale--headline-l-font-tracking: 0rem;
+  --lumi-sys-typography-type-scale--headline-l-font-weight: 350;
+  --lumi-sys-typography-type-scale--headline-l-font-wght: 350;
+  --lumi-sys-typography-type-scale--headline-l-font-width: 100;
+  --lumi-sys-typography-type-scale--headline-l-font-rond: 20;
+  --lumi-sys-typography-type-scale--headline-l-opsz: 28;
+
+  --lumi-sys-typography-type-scale--headline-m-font-name: var(--ff-sans);
+  --lumi-sys-typography-type-scale--headline-m-font-size: 1.5rem;
+  --lumi-sys-typography-type-scale--headline-m-line-height: 1.75rem;
+  --lumi-sys-typography-type-scale--headline-m-font-tracking: 0rem;
+  --lumi-sys-typography-type-scale--headline-m-font-weight: 380;
+  --lumi-sys-typography-type-scale--headline-m-font-wght: 380;
+  --lumi-sys-typography-type-scale--headline-m-font-width: 100;
+  --lumi-sys-typography-type-scale--headline-m-font-rond: 20;
+  --lumi-sys-typography-type-scale--headline-m-opsz: 24;
+
+  --lumi-sys-typography-type-scale--headline-s-font-name: var(--ff-sans);
+  --lumi-sys-typography-type-scale--headline-s-font-size: 1.25rem;
+  --lumi-sys-typography-type-scale--headline-s-line-height: 1.5rem;
+  --lumi-sys-typography-type-scale--headline-s-font-tracking: 0rem;
+  --lumi-sys-typography-type-scale--headline-s-font-weight: 470;
+  --lumi-sys-typography-type-scale--headline-s-font-wght: 470;
+  --lumi-sys-typography-type-scale--headline-s-font-width: 94;
+  --lumi-sys-typography-type-scale--headline-s-font-rond: 20;
+  --lumi-sys-typography-type-scale--headline-s-opsz: 20;
+
+  /* --- Luminous Typography Tokens: Body (Carbon SSoT) --- */
+  --lumi-sys-typography-type-scale--body-l-font-name: var(--ff-sans);
+  --lumi-sys-typography-type-scale--body-l-font-size: 1.0625rem;
+  --lumi-sys-typography-type-scale--body-l-line-height: 1.5rem;
+  --lumi-sys-typography-type-scale--body-l-font-tracking: 0rem;
+  --lumi-sys-typography-type-scale--body-l-font-weight: 400;
+  --lumi-sys-typography-type-scale--body-l-font-wght: 400;
+  --lumi-sys-typography-type-scale--body-l-font-width: 92;
+  --lumi-sys-typography-type-scale--body-l-font-rond: 0;
+  --lumi-sys-typography-type-scale--body-l-opsz: 17;
+
+  --lumi-sys-typography-type-scale--body-m-font-name: var(--ff-sans);
+  --lumi-sys-typography-type-scale--body-m-font-size: 0.9375rem;
+  --lumi-sys-typography-type-scale--body-m-line-height: 1.25rem;
+  --lumi-sys-typography-type-scale--body-m-font-tracking: 0rem;
+  --lumi-sys-typography-type-scale--body-m-font-weight: 400;
+  --lumi-sys-typography-type-scale--body-m-font-wght: 400;
+  --lumi-sys-typography-type-scale--body-m-font-width: 92;
+  --lumi-sys-typography-type-scale--body-m-font-rond: 0;
+  --lumi-sys-typography-type-scale--body-m-opsz: 15;
+
+  --lumi-sys-typography-type-scale--body-s-font-name: var(--ff-sans);
+  --lumi-sys-typography-type-scale--body-s-font-size: 0.8125rem;
+  --lumi-sys-typography-type-scale--body-s-line-height: 1.0625rem;
+  --lumi-sys-typography-type-scale--body-s-font-tracking: 0rem;
+  --lumi-sys-typography-type-scale--body-s-font-weight: 400;
+  --lumi-sys-typography-type-scale--body-s-font-wght: 400;
+  --lumi-sys-typography-type-scale--body-s-font-width: 92;
+  --lumi-sys-typography-type-scale--body-s-font-rond: 0;
+  --lumi-sys-typography-type-scale--body-s-opsz: 13;
+
+  /* --- Luminous Typography Tokens: Label (Carbon SSoT) --- */
+  --lumi-sys-typography-type-scale--label-l-font-name: var(--ff-sans);
+  --lumi-sys-typography-type-scale--label-l-font-size: 1.0625rem;
+  --lumi-sys-typography-type-scale--label-l-line-height: 1.5rem;
+  --lumi-sys-typography-type-scale--label-l-font-tracking: 0rem;
+  --lumi-sys-typography-type-scale--label-l-font-weight: 370;
+  --lumi-sys-typography-type-scale--label-l-font-wght: 370;
+  --lumi-sys-typography-type-scale--label-l-font-width: 92;
+  --lumi-sys-typography-type-scale--label-l-font-rond: 0;
+  --lumi-sys-typography-type-scale--label-l-opsz: 17;
+
+  --lumi-sys-typography-type-scale--label-m-font-name: var(--ff-sans);
+  --lumi-sys-typography-type-scale--label-m-font-size: 0.9375rem;
+  --lumi-sys-typography-type-scale--label-m-line-height: 1.25rem;
+  --lumi-sys-typography-type-scale--label-m-font-tracking: 0rem;
+  --lumi-sys-typography-type-scale--label-m-font-weight: 370;
+  --lumi-sys-typography-type-scale--label-m-font-wght: 370;
+  --lumi-sys-typography-type-scale--label-m-font-width: 92;
+  --lumi-sys-typography-type-scale--label-m-font-rond: 0;
+  --lumi-sys-typography-type-scale--label-m-opsz: 15;
+
+  --lumi-sys-typography-type-scale--label-s-font-name: var(--ff-sans);
+  --lumi-sys-typography-type-scale--label-s-font-size: 0.8125rem;
+  --lumi-sys-typography-type-scale--label-s-line-height: 1.25rem;
+  --lumi-sys-typography-type-scale--label-s-font-tracking: 0rem;
+  --lumi-sys-typography-type-scale--label-s-font-weight: 370;
+  --lumi-sys-typography-type-scale--label-s-font-wght: 370;
+  --lumi-sys-typography-type-scale--label-s-font-width: 92;
+  --lumi-sys-typography-type-scale--label-s-font-rond: 0;
+  --lumi-sys-typography-type-scale--label-s-opsz: 13;
+
+  --lumi-sys-opacity-state--hover: 0.08;
+  --lumi-sys-opacity-state--focus: 0.08;
+  --lumi-sys-opacity-state--pressed: 0.12;
+  --lumi-sys-opacity-state--disabled: 0.12;
+  --lumi-sys-opacity-state--disabled-label: 0.38;
+
+  --lumi-sys-color--code-background: #000;
+  --lumi-sys-color--code-primary-text: #fff;
+  --lumi-sys-color--code-blue-text: #4fa0ff;
+  --lumi-sys-color--code-green-text: #60d673;
+  --lumi-sys-color--code-grey-text: #808080;
+  --lumi-sys-color--code-pink-text: #ff96da;
+  --lumi-sys-color--code-purple-text: #969dff;
+  --lumi-sys-color--code-red-text: #ff5a59;
+  --lumi-sys-color--code-yellow-text: #ffdb0f;
+
+  --lumi-sys-color--chart-series-1: #2575fc;
+  --lumi-sys-color--chart-series-2: #5b6e9e;
+  --lumi-sys-color--chart-series-3: #228a49;
+  --lumi-sys-color--chart-series-4: #62991b;
+  --lumi-sys-color--chart-series-5: #1e564d;
+  --lumi-sys-color--chart-series-6: #526a45;
+  --lumi-sys-color--chart-series-7: #2780c4;
+  --lumi-sys-color--chart-series-8: #997112;
+  --lumi-sys-color--chart-series-9: #705ec2;
+  --lumi-sys-color--chart-series-10: #c84288;
+}
+
+/* ============================================================
+ * 3. DARK TOKENS  (REMAPPED to :root — Decision D3)
+ *    Canvas / Chart.js / D3 read getComputedStyle(document.documentElement);
+ *    the theme-sync listener sets data-theme="dark" on <html>, so dark values
+ *    MUST live on :root (not scoped to body) to prevent black-chart regressions.
+ * ============================================================ */
+:root[data-theme="dark"],
+body.dark-mode,
+:root[data-theme="dark"] body {
+  --body-bg: #0f0f0f;
+  --lumi-sys-elevation--level1: 0 0 20px 0 rgba(0, 0, 0, 0.28);
+  --lumi-sys-elevation--level2: 0 0 20px 0 rgba(0, 0, 0, 0.40);
+
+  --lumi-sys-color--surface: #0f0f0f;
+  --lumi-sys-color--surface-dim: #141414;
+  --lumi-sys-color--surface-bright: #1c1c1c;
+  --lumi-sys-color--surface-background: #0f0f0f;
+  --lumi-sys-color--surface-accent: #14204f;
+  --lumi-sys-color--surface-container: #141414;
+  --lumi-sys-color--surface-container-high: #1c1c1c;
+  --lumi-sys-color--on-surface: #e0e0e0;
+  --lumi-sys-color--on-surface-default: #e0e0e0;
+  --lumi-sys-color--on-surface-variant: rgba(255, 255, 255, 0.55);
+  --lumi-sys-color--on-surface-de-emphasis: rgba(255, 255, 255, 0.55);
+  --lumi-sys-color--on-surface-low: rgba(255, 255, 255, 0.12);
+  --lumi-sys-color--positive: #0ebc5f;
+  --lumi-sys-color--positive-container: #002220;
+  --lumi-sys-color--on-positive-container: #0ebc5f;
+  --lumi-sys-color--error: #ff4c45;
+  --lumi-sys-color--error-container: #3c0202;
+  --lumi-sys-color--on-error-container: #ff4c45;
+  --lumi-sys-color--accent: #1f3b9b;
+  --lumi-sys-color--accent-container: #192967;
+  --lumi-sys-color--accent-fixed: #3186ff;
+  --lumi-sys-color--primary: #9dd2ff;
+  --lumi-sys-color--on-primary: #192967;
+  --lumi-sys-color--black: #000;
+  --lumi-sys-color--white: #fff;
+  --lumi-sys-color--outline: #9a9b9c;
+  --lumi-sys-color--stroke-default: #2d2f38;
+
+  --lumi-sys-color--code-background: #141414;
+  --lumi-sys-color--code-primary-text: #fff;
+  --lumi-sys-color--code-blue-text: #4fa0ff;
+  --lumi-sys-color--code-green-text: #60d673;
+  --lumi-sys-color--code-grey-text: #808080;
+  --lumi-sys-color--code-pink-text: #ff96da;
+  --lumi-sys-color--code-purple-text: #969dff;
+  --lumi-sys-color--code-red-text: #ff5a59;
+  --lumi-sys-color--code-yellow-text: #ffdb0f;
+
+  --lumi-sys-color--chart-series-1: #9dd2ff;
+  --lumi-sys-color--chart-series-2: #96a7d6;
+  --lumi-sys-color--chart-series-3: #50e389;
+  --lumi-sys-color--chart-series-4: #c8f585;
+  --lumi-sys-color--chart-series-5: #f5f2e6;
+  --lumi-sys-color--chart-series-6: #dcd8c0;
+  --lumi-sys-color--chart-series-7: #82c7ff;
+  --lumi-sys-color--chart-series-8: #f5d77f;
+  --lumi-sys-color--chart-series-9: #d9ceff;
+  --lumi-sys-color--chart-series-10: #ffa6d7;
+}
+
+/* ============================================================
+ * 3b. OS-LEVEL DARK FALLBACK  (prefers-color-scheme)
+ *     A prior refactor introduced this stylesheet and moved the dark tokens onto
+ *     :root[data-theme="dark"], but dropped the @media (prefers-color-scheme:
+ *     dark) trigger that widgets previously carried in their own <style>.
+ *     Inline widgets whose host sends no set-theme / data-theme message therefore
+ *     stayed on the light --surface (#fdfcfc), rendering white in dark mode.
+ *     Re-apply the dark values on OS dark; an explicit host data-theme="light"
+ *     still opts back to light. Keep in sync with the :root[data-theme="dark"]
+ *     block above.
+ * ============================================================ */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --body-bg: #0f0f0f;
+    --lumi-sys-elevation--level1: 0 0 20px 0 rgba(0, 0, 0, 0.28);
+    --lumi-sys-elevation--level2: 0 0 20px 0 rgba(0, 0, 0, 0.40);
+
+    --lumi-sys-color--surface: #0f0f0f;
+    --lumi-sys-color--surface-dim: #141414;
+    --lumi-sys-color--surface-bright: #1c1c1c;
+    --lumi-sys-color--surface-background: #0f0f0f;
+    --lumi-sys-color--surface-accent: #14204f;
+    --lumi-sys-color--surface-container: #141414;
+    --lumi-sys-color--surface-container-high: #1c1c1c;
+    --lumi-sys-color--on-surface: #e0e0e0;
+    --lumi-sys-color--on-surface-default: #e0e0e0;
+    --lumi-sys-color--on-surface-variant: rgba(255, 255, 255, 0.55);
+    --lumi-sys-color--on-surface-de-emphasis: rgba(255, 255, 255, 0.55);
+    --lumi-sys-color--on-surface-low: rgba(255, 255, 255, 0.12);
+    --lumi-sys-color--positive: #0ebc5f;
+    --lumi-sys-color--positive-container: #002220;
+    --lumi-sys-color--on-positive-container: #0ebc5f;
+    --lumi-sys-color--error: #ff4c45;
+    --lumi-sys-color--error-container: #3c0202;
+    --lumi-sys-color--on-error-container: #ff4c45;
+    --lumi-sys-color--accent: #1f3b9b;
+    --lumi-sys-color--accent-container: #192967;
+    --lumi-sys-color--accent-fixed: #3186ff;
+    --lumi-sys-color--primary: #9dd2ff;
+    --lumi-sys-color--on-primary: #192967;
+    --lumi-sys-color--black: #000;
+    --lumi-sys-color--white: #fff;
+    --lumi-sys-color--outline: #9a9b9c;
+    --lumi-sys-color--stroke-default: #2d2f38;
+
+    --lumi-sys-color--code-background: #141414;
+    --lumi-sys-color--code-primary-text: #fff;
+    --lumi-sys-color--code-blue-text: #4fa0ff;
+    --lumi-sys-color--code-green-text: #60d673;
+    --lumi-sys-color--code-grey-text: #808080;
+    --lumi-sys-color--code-pink-text: #ff96da;
+    --lumi-sys-color--code-purple-text: #969dff;
+    --lumi-sys-color--code-red-text: #ff5a59;
+    --lumi-sys-color--code-yellow-text: #ffdb0f;
+
+    --lumi-sys-color--chart-series-1: #9dd2ff;
+    --lumi-sys-color--chart-series-2: #96a7d6;
+    --lumi-sys-color--chart-series-3: #50e389;
+    --lumi-sys-color--chart-series-4: #c8f585;
+    --lumi-sys-color--chart-series-5: #f5f2e6;
+    --lumi-sys-color--chart-series-6: #dcd8c0;
+    --lumi-sys-color--chart-series-7: #82c7ff;
+    --lumi-sys-color--chart-series-8: #f5d77f;
+    --lumi-sys-color--chart-series-9: #d9ceff;
+    --lumi-sys-color--chart-series-10: #ffa6d7;
+  }
+}
+
+/* Dark mode slider thumb override */
+:root[data-theme="dark"] .lumi-slider::-webkit-slider-thumb,
+body.dark-mode .lumi-slider::-webkit-slider-thumb {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Crect x='14' y='6' width='4' height='20' rx='2' fill='%23ffffff'/%3E%3C/svg%3E");
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .lumi-slider::-webkit-slider-thumb {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Crect x='14' y='6' width='4' height='20' rx='2' fill='%23ffffff'/%3E%3C/svg%3E");
+  }
+}
+
+/* ============================================================
+ * 4. SHORT DIAGRAM / CHART ALIASES
+ *    Legacy diagram.md and chart.jinja2 reference short names such as
+ *    --surface, --on-surface, --chart-1..10, --primary, --r-full. These MUST
+ *    resolve to the canonical --lumi-sys-color--* tokens (which flip in dark
+ *    mode) — otherwise every diagram var() falls back to black (historical
+ *    mass-regression bug #4). Light-hex fallbacks are a last resort only.
+ * ============================================================ */
+:root {
+  /* surfaces */
+  --surface: var(--lumi-sys-color--surface, #fdfcfc);
+  --surface-dim: var(--lumi-sys-color--surface-dim, #f2f0f0);
+  --surface-bright: var(--lumi-sys-color--surface-bright, #fff);
+  --surface-container: var(--lumi-sys-color--surface-container, #f2f0f0);
+  --surface-container-high: var(--lumi-sys-color--surface-container-high, #e6e6e6);
+  --surface-container-lowest: var(--lumi-sys-color--surface, #fff);
+  --surface-accent: var(--lumi-sys-color--surface-accent, #9dd2ff);
+  /* foreground */
+  --on-surface: var(--lumi-sys-color--on-surface, #000);
+  --on-surface-variant: var(--lumi-sys-color--on-surface-variant, rgba(0, 0, 0, 0.55));
+  --on-surface-low: var(--lumi-sys-color--on-surface-low, rgba(0, 0, 0, 0.08));
+  /* accents / brand */
+  --primary: var(--lumi-sys-color--primary, #3186ff);
+  --primary-container: var(--lumi-sys-color--accent-container, #dcf1ff);
+  --accent: var(--lumi-sys-color--accent, #9dd2ff);
+  --accent-container: var(--lumi-sys-color--accent-container, #dcf1ff);
+  --accent-fixed: var(--lumi-sys-color--accent-fixed, #3186ff);
+  /* status */
+  --positive: var(--lumi-sys-color--positive, #008052);
+  --positive-container: var(--lumi-sys-color--positive-container, #daf9d4);
+  --error: var(--lumi-sys-color--error, #de2d29);
+  --error-container: var(--lumi-sys-color--error-container, #ffdeec);
+  /* structure */
+  --outline: var(--lumi-sys-color--outline, #727676);
+  --stroke-default: var(--lumi-sys-color--stroke-default, #e3e3e3);
+  /* chart series 1..10 */
+  --chart-1: var(--lumi-sys-color--chart-series-1, #2575fc);
+  --chart-2: var(--lumi-sys-color--chart-series-2, #5b6e9e);
+  --chart-3: var(--lumi-sys-color--chart-series-3, #228a49);
+  --chart-4: var(--lumi-sys-color--chart-series-4, #62991b);
+  --chart-5: var(--lumi-sys-color--chart-series-5, #1e564d);
+  --chart-6: var(--lumi-sys-color--chart-series-6, #526a45);
+  --chart-7: var(--lumi-sys-color--chart-series-7, #2780c4);
+  --chart-8: var(--lumi-sys-color--chart-series-8, #997112);
+  --chart-9: var(--lumi-sys-color--chart-series-9, #705ec2);
+  --chart-10: var(--lumi-sys-color--chart-series-10, #c84288);
+  /* code palette */
+  --code-background: var(--lumi-sys-color--code-background, #000);
+  --code-primary-text: var(--lumi-sys-color--code-primary-text, #fff);
+  /* spacing shorthands */
+  --spacing-xs: var(--lumi-sys-spacing--xs, 4px);
+  --spacing-s: var(--lumi-sys-spacing--s, 8px);
+  --spacing-m: var(--lumi-sys-spacing--m, 12px);
+  --spacing-l: var(--lumi-sys-spacing--l, 16px);
+  --spacing-xl: var(--lumi-sys-spacing--xl, 20px);
+  /* radius shorthands */
+  --r-container: var(--lumi-sys-shape--xl-max, 40px);
+  --r-xl: var(--lumi-sys-shape--xl, 28px);
+  --r-l: var(--lumi-sys-shape--large-max, 24px);
+  --r-m: var(--lumi-sys-shape--large, 16px);
+  --r-s: var(--lumi-sys-shape--small, 8px);
+  --r-full: var(--lumi-sys-shape--full, 999px);
+}
+
+/* ============================================================
+ * 5. IN-SCOPE PRE-BAKED COMPONENT CLASSES
+ *    Interactive controls + simple display components only (Decision D5).
+ *    Complex components (timeline, sequence, stepper, pros-cons, hero, HUD,
+ *    hotspot, media grid) are intentionally excluded.
+ * ============================================================ */
+
+/* Global font rendering quality + themed surface backdrop.
+ * background/color MUST be set here (SSoT) so the widget backdrop follows the
+ * light/dark surface token deterministically. Without this, a widget whose
+ * model-generated markup forgets `background: var(--surface)` on its root
+ * container falls back to the browser-default white body, producing a broken
+ * dark mode (light header/chart area behind a dark card). Regression source:
+ * batch1 PB-A02 dark. */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  background: var(--body-bg, transparent) !important;
+  color: var(--on-surface) !important;
+  /* Auto-resizing iframe: content grows the frame, never scrolls the document.
+   * Model widgets already emit this; declared here as the SSoT default. */
+  overflow-y: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-optical-sizing: auto;
+  text-rendering: optimizeLegibility;
+}
+
+/* ============================================================
+ * SCROLLBAR DISCIPLINE (single source of truth)
+ *   Long lists/cards flow and let the iframe auto-resize (see the C++
+ *   NeutralizeInnerScroll pass, which removes accidental tiny scroll boxes).
+ *   For LEGITIMATE overflow that remains (wide tables, code, pan-containers,
+ *   large >=240px viewports) render a slim, theme-aware scrollbar.
+ *   One token carries the correct light/dark contrast (the auto-flipped
+ *   stroke token is too dark on #0f0f0f), referenced once = SSoT.
+ * ============================================================ */
+:root { --lumi-scrollbar-thumb: rgba(0, 0, 0, 0.20); }
+:root[data-theme="dark"], body.dark-mode { --lumi-scrollbar-thumb: rgba(255, 255, 255, 0.20); }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --lumi-scrollbar-thumb: rgba(255, 255, 255, 0.20); }
+}
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--lumi-scrollbar-thumb) transparent;
+}
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background-color: var(--lumi-scrollbar-thumb);
+  border-radius: var(--lumi-sys-shape--full, 999px);
+}
+
+/* --- Buttons --- */
+.lumi-btn { display: inline-flex; align-items: center; justify-content: center; gap: var(--lumi-sys-spacing--s, 8px); min-height: 48px; padding: 0 24px; font-family: var(--ff-sans, 'Google Sans Flex', 'Google Sans', sans-serif); font-size: 15px; font-weight: 400; line-height: 20px; border-radius: var(--lumi-sys-shape--full, 999px); border-width: medium; border-style: none; border-color: currentcolor; border-image: none; cursor: pointer; user-select: none; transition: background-color 0.15s, color 0.15s, border-color 0.15s, box-shadow 0.15s, transform 0.1s; text-decoration: none; box-sizing: border-box; white-space: nowrap; }
+.lumi-btn:active,
+.lumi-btn.is-pressed { transform: scale(0.98); }
+.lumi-btn--accent,
+.lumi-btn--primary { background-color: var(--lumi-sys-color--accent, #9dd2ff); color: var(--lumi-sys-color--on-surface-default, #000); }
+.lumi-btn--accent:hover,
+.lumi-btn--primary:hover { background-color: var(--lumi-sys-color--accent-container, #dcf1ff); }
+.lumi-btn--tonal { background-color: var(--lumi-sys-color--surface-dim, #f2f0f0); color: var(--lumi-sys-color--on-surface-default, #000); }
+.lumi-btn--tonal:hover { background-color: var(--lumi-sys-color--surface-bright, #fff); }
+.lumi-btn--bright { background-color: var(--lumi-sys-color--surface-bright, #fff); color: var(--lumi-sys-color--on-surface-default, #000); border-width: medium; border-style: none; border-color: currentcolor; border-image: none; box-shadow: none; }
+.lumi-btn--bright:hover { background-color: var(--lumi-sys-color--surface-dim, #f2f0f0); }
+.lumi-btn--ghost,
+.lumi-btn--on-surface { background-color: var(--lumi-sys-color--on-surface-low, rgba(0, 0, 0, 0.04)); color: var(--lumi-sys-color--on-surface-default, #000); }
+.lumi-btn--ghost:hover,
+.lumi-btn--on-surface:hover { background-color: var(--lumi-sys-color--on-surface-low, rgba(0, 0, 0, 0.08)); }
+.lumi-btn--translucent { background-color: rgba(255, 255, 255, 0.25); backdrop-filter: blur(12px); color: var(--lumi-sys-color--on-surface-default, #000); border-color: rgba(255, 255, 255, 0.3); }
+.lumi-btn--translucent:hover { background-color: rgba(255, 255, 255, 0.35); }
+.lumi-btn--small { min-height: 36px; padding: 0 16px; font-size: 13px; line-height: 18px; gap: var(--lumi-sys-spacing--xs, 4px); }
+.lumi-btn--xsmall { min-height: 24px; padding: 0 10px; font-size: 11px; line-height: 16px; gap: 4px; }
+/* Toggleable Buttons */
+.lumi-btn.is-selected,
+.lumi-btn.selected,
+.lumi-btn[aria-pressed="true"] {
+  background-color: var(--lumi-sys-color--accent-container, #dcf1ff);
+  color: var(--lumi-sys-color--on-surface-default, #000);
+  border: none;
+  box-shadow: none;
+}
+.lumi-btn.is-selected:hover,
+.lumi-btn.selected:hover,
+.lumi-btn[aria-pressed="true"]:hover {
+  background-color: var(--lumi-sys-color--accent, #9dd2ff);
+  color: var(--lumi-sys-color--on-surface-default, #000);
+}
+.lumi-btn.is-selected:active,
+.lumi-btn.selected:active,
+.lumi-btn[aria-pressed="true"]:active {
+  transform: scale(0.98);
+}
+
+:root[data-theme="dark"] .lumi-btn.is-selected,
+:root[data-theme="dark"] .lumi-btn.selected,
+:root[data-theme="dark"] .lumi-btn[aria-pressed="true"],
+body.dark-mode .lumi-btn.is-selected,
+body.dark-mode .lumi-btn.selected,
+body.dark-mode .lumi-btn[aria-pressed="true"],
+.lumi-theme-dark .lumi-btn.is-selected,
+.lumi-theme-dark .lumi-btn.selected,
+.lumi-theme-dark .lumi-btn[aria-pressed="true"] {
+  background-color: var(--lumi-sys-color--accent-container, #004a77);
+  color: var(--lumi-sys-color--on-surface-default, #fff);
+  border: none;
+  box-shadow: none;
+}
+:root[data-theme="dark"] .lumi-btn.is-selected:hover,
+:root[data-theme="dark"] .lumi-btn.selected:hover,
+:root[data-theme="dark"] .lumi-btn[aria-pressed="true"]:hover,
+body.dark-mode .lumi-btn.is-selected:hover,
+body.dark-mode .lumi-btn.selected:hover,
+body.dark-mode .lumi-btn[aria-pressed="true"]:hover,
+.lumi-theme-dark .lumi-btn.is-selected:hover,
+.lumi-theme-dark .lumi-btn.selected:hover,
+.lumi-theme-dark .lumi-btn[aria-pressed="true"]:hover {
+  background-color: var(--lumi-sys-color--accent, #9dd2ff);
+  color: #000;
+}
+
+/* --- Switch --- */
+.lumi-switch { display: inline-flex; align-items: center; gap: var(--lumi-sys-spacing--s, 8px); cursor: pointer; font-family: var(--ff-sans, 'Google Sans Flex', 'Google Sans', sans-serif); font-size: 15px; color: var(--lumi-sys-color--on-surface-default, #000); user-select: none; }
+.lumi-switch input[type="checkbox"] { position: absolute; opacity: 0; width: 0; height: 0; pointer-events: none; }
+.lumi-switch__track { position: relative; display: inline-flex; align-items: center; width: 52px; height: 32px; background-color: var(--lumi-sys-color--surface-dim, #f2f0f0); border: 2px solid var(--lumi-sys-color--stroke-default, rgba(0, 0, 0, 0.12)); border-radius: var(--lumi-sys-shape--full, 999px); transition: background-color 0.2s, border-color 0.2s; flex-shrink: 0; box-sizing: border-box; }
+.lumi-switch__thumb,
+.lumi-switch__track::after { content: ""; position: absolute; top: 50%; left: 6px; transform: translateY(-50%); width: 16px; height: 16px; border-radius: 50%; background-color: var(--lumi-sys-color--on-surface-variant, #757575); transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1); display: flex; align-items: center; justify-content: center; box-sizing: border-box; }
+.lumi-switch input[type="checkbox"]:checked + .lumi-switch__track { background-color: var(--lumi-sys-color--accent-fixed, #3186ff); border-color: transparent; }
+.lumi-switch input[type="checkbox"]:checked + .lumi-switch__track .lumi-switch__thumb,
+.lumi-switch input[type="checkbox"]:checked + .lumi-switch__track::after { left: 22px; width: 24px; height: 24px; background-color: rgb(255, 255, 255); }
+.lumi-switch input[type="checkbox"]:disabled + .lumi-switch__track { opacity: var(--lumi-sys-opacity-state--disabled, 0.38); cursor: not-allowed; }
+.lumi-switch--small .lumi-switch__track,
+.lumi-switch--mini .lumi-switch__track { width: 32px; height: 20px; }
+.lumi-switch--small .lumi-switch__thumb,
+.lumi-switch--small .lumi-switch__track::after,
+.lumi-switch--mini .lumi-switch__thumb,
+.lumi-switch--mini .lumi-switch__track::after { width: 12px; height: 12px; left: 2px; }
+.lumi-switch--small input[type="checkbox"]:checked + .lumi-switch__track .lumi-switch__thumb,
+.lumi-switch--small input[type="checkbox"]:checked + .lumi-switch__track::after,
+.lumi-switch--mini input[type="checkbox"]:checked + .lumi-switch__track .lumi-switch__thumb,
+.lumi-switch--mini input[type="checkbox"]:checked + .lumi-switch__track::after { left: 12px; width: 16px; height: 16px; }
+
+/* --- Checkbox & Radio --- */
+.lumi-checkbox-label { display: inline-flex; align-items: center; gap: var(--lumi-sys-spacing--s, 8px); cursor: pointer; font-family: var(--ff-sans, 'Google Sans Flex', 'Google Sans', sans-serif); font-size: 15px; color: var(--lumi-sys-color--on-surface-default, #000); user-select: none; }
+.lumi-checkbox-label input[type="checkbox"] { position: absolute; opacity: 0; width: 0; height: 0; pointer-events: none; }
+.lumi-checkbox { position: relative; width: 24px; height: 24px; border-radius: var(--lumi-sys-shape--small, 8px); border: 2px solid var(--lumi-sys-color--on-surface-variant, rgba(0, 0, 0, 0.55)); background-color: transparent; transition: background-color 0.15s, border-color 0.15s, box-shadow 0.15s; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-sizing: border-box; }
+.lumi-checkbox-label:hover .lumi-checkbox { background-color: var(--lumi-sys-color--on-surface-low, rgba(0, 0, 0, 0.04)); border-color: var(--lumi-sys-color--on-surface-default, #000); }
+.lumi-checkbox-label input[type="checkbox"]:checked ~ .lumi-checkbox,
+.lumi-checkbox-label input[type="checkbox"]:indeterminate ~ .lumi-checkbox,
+.lumi-checkbox.is-indeterminate { background-color: var(--lumi-sys-color--on-surface-default, #000); border-color: transparent; }
+.lumi-checkbox .lumi-checkmark { font-size: 18px; line-height: 1; color: var(--lumi-sys-color--surface, #fff); fill: var(--lumi-sys-color--surface, #fff); display: none; user-select: none; }
+.lumi-checkbox-label input[type="checkbox"]:checked ~ .lumi-checkbox .lumi-checkmark,
+.lumi-checkbox-label input[type="checkbox"]:checked ~ .lumi-checkbox .lumi-checkbox__check { display: block; }
+.lumi-checkbox-label input[type="checkbox"]:indeterminate ~ .lumi-checkbox .lumi-checkbox__indeterminate,
+.lumi-checkbox.is-indeterminate .lumi-checkbox__indeterminate { display: block; }
+.lumi-checkbox-label input[type="checkbox"]:disabled ~ .lumi-checkbox,
+.lumi-checkbox-label input[type="checkbox"]:disabled ~ span { opacity: var(--lumi-sys-opacity-state--disabled, 0.38); cursor: not-allowed; }
+input[type="checkbox"]:not(.lumi-switch input):not(.lumi-checkbox-label input) { appearance: none; -webkit-appearance: none; width: 22px; height: 22px; border-radius: 7px; border: 2px solid var(--lumi-sys-color--on-surface-variant, rgba(0, 0, 0, 0.55)); background-color: var(--lumi-sys-color--surface-bright, #fff); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; vertical-align: middle; flex-shrink: 0; margin: 0; box-sizing: border-box; transition: background-color 0.15s, border-color 0.15s; }
+input[type="checkbox"]:not(.lumi-switch input):not(.lumi-checkbox-label input):hover { border-color: var(--lumi-sys-color--on-surface-default, #000); background-color: var(--lumi-sys-color--on-surface-low, rgba(0, 0, 0, 0.04)); }
+input[type="checkbox"]:not(.lumi-switch input):not(.lumi-checkbox-label input):checked { background-color: var(--lumi-sys-color--on-surface-default, #000); border-color: var(--lumi-sys-color--on-surface-default, #000); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E"); background-size: 14px 14px; background-position: center; background-repeat: no-repeat; }
+input[type="radio"] { appearance: none; -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--lumi-sys-color--on-surface-variant, rgba(0, 0, 0, 0.55)); background-color: var(--lumi-sys-color--surface-bright, #fff); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; vertical-align: middle; flex-shrink: 0; margin: 0; box-sizing: border-box; transition: border-color 0.15s, background-color 0.15s; }
+input[type="radio"]:checked { border-color: var(--lumi-sys-color--on-surface-default, #000); background-image: radial-gradient(circle, var(--lumi-sys-color--on-surface-default, #000) 5px, transparent 5.5px); }
+
+/* --- Slider --- */
+.lumi-slider-container { display: flex; align-items: center; gap: var(--lumi-sys-spacing--m, 16px); width: 100%; }
+.lumi-slider-row { display: flex; flex-direction: column; gap: var(--lumi-sys-spacing--xs, 4px); width: 100%; }
+.lumi-slider-label { font-family: var(--ff-sans, 'Google Sans Flex', 'Google Sans', sans-serif); font-size: 15px; font-weight: 400; color: var(--lumi-sys-color--on-surface-default, #000); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.lumi-slider { appearance: none; width: calc(100% + 28px); margin-left: -14px; margin-right: -14px; height: 40px; background: transparent; cursor: pointer; box-sizing: border-box; }
+.lumi-slider:focus { outline: none; }
+.lumi-slider::-webkit-slider-runnable-track { height: 4px; --thumb-center: calc(14px + (100% - 28px) * (var(--progress, 50%) / 100%)); --active-end: calc(var(--thumb-center) - 8px + (var(--progress, 50%) / 100%) * 6px); background-image: radial-gradient(circle at calc(100% - 18px) center, var(--lumi-sys-color--on-surface-variant, #757575) 2px, transparent 2.5px), linear-gradient( to right, transparent 0, transparent 14px, var(--lumi-sys-color--on-surface-default, #000) 14px, var(--lumi-sys-color--on-surface-default, #000) var(--active-end), transparent var(--active-end), transparent calc(var(--thumb-center) + 8px), var(--lumi-sys-color--stroke-default, rgba(0, 0, 0, 0.12)) calc(var(--thumb-center) + 8px), var(--lumi-sys-color--stroke-default, rgba(0, 0, 0, 0.12)) calc(100% - 16px), transparent calc(100% - 16px), transparent 100% ); border-radius: var(--lumi-sys-shape--full, 999px); border-width: medium; border-style: none; border-color: currentcolor; border-image: none; }
+.lumi-slider::-webkit-slider-thumb { appearance: none; width: 32px; height: 32px; border-radius: 50%; background-color: transparent; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Crect x='14' y='6' width='4' height='20' rx='2' fill='%23000000'/%3E%3C/svg%3E"); background-size: 32px 32px; background-repeat: no-repeat; background-position: center center; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; box-sizing: border-box; margin-top: -14px; cursor: pointer; transition: background-color 0.15s; }
+.lumi-slider:hover::-webkit-slider-thumb { background-color: var(--lumi-sys-color--on-surface-low, rgba(0, 0, 0, 0.08)); }
+.lumi-slider:active::-webkit-slider-thumb { background-color: var(--lumi-sys-color--on-surface-low, rgba(0, 0, 0, 0.12)); }
+.lumi-slider:disabled { opacity: var(--lumi-sys-opacity-state--disabled, 0.38); cursor: not-allowed; }
+.lumi-slider:disabled::-webkit-slider-thumb { cursor: not-allowed; box-shadow: none; }
+.lumi-slider-value { display: flex; align-items: center; justify-content: center; min-width: 64px; height: 40px; padding: 0 12px; background-color: var(--lumi-sys-color--surface-dim, #f2f0f0); border-radius: var(--lumi-sys-shape--medium, 16px); font-family: var(--ff-sans, 'Google Sans Flex', sans-serif); font-size: 15px; line-height: 20px; font-weight: 540; font-variation-settings: "wght" 540, "wdth" 92, "opsz" 15; font-variant-numeric: tabular-nums; color: var(--lumi-sys-color--on-surface-default, #000); flex-shrink: 0; box-sizing: border-box; }
+
+/* --- Text input --- */
+.lumi-input-group { display: flex; flex-direction: column; gap: var(--lumi-sys-spacing--xs, 4px); width: 100%; }
+.lumi-input-label { font-family: var(--ff-sans, 'Google Sans Flex', 'Google Sans', sans-serif); font-size: 14px; font-weight: 500; line-height: 20px; color: var(--lumi-sys-color--on-surface-default, #000); }
+.lumi-input { appearance: none; width: 100%; min-height: 48px; padding: 0 16px; font-family: var(--ff-sans, 'Google Sans Flex', 'Google Sans', sans-serif); font-size: 15px; font-weight: 400; line-height: 22px; color: var(--lumi-sys-color--on-surface-default, #000); background-color: var(--lumi-sys-color--surface-bright, #fff); border: 1px solid var(--lumi-sys-color--stroke-default, rgba(0, 0, 0, 0.12)); border-radius: var(--lumi-sys-shape--large, 16px); background-clip: padding-box; outline: none; box-sizing: border-box; transition: border-color 0.15s, box-shadow 0.15s, background-color 0.15s; }
+.lumi-input::placeholder { color: var(--lumi-sys-color--on-surface-variant, rgba(0, 0, 0, 0.55)); opacity: 0.7; }
+.lumi-input:hover { border-color: var(--lumi-sys-color--on-surface-default, #000); }
+.lumi-input:focus,
+.lumi-input:focus-visible { border-color: var(--lumi-sys-color--accent-fixed, #3186ff); box-shadow: 0 0 0 2px var(--lumi-sys-color--accent-container, rgba(49, 134, 255, 0.25)); }
+textarea.lumi-input, .lumi-input--area { min-height: 100px; padding: 12px 16px; resize: vertical; line-height: 22px; }
+.lumi-input.is-error,
+.lumi-input-group.is-error .lumi-input { border-color: var(--lumi-sys-color--error, #ff4c45); }
+.lumi-input-helper { font-family: var(--ff-sans, 'Google Sans Flex', 'Google Sans', sans-serif); font-size: 12px; line-height: 16px; color: var(--lumi-sys-color--on-surface-variant, rgba(0, 0, 0, 0.55)); }
+.lumi-input-group.is-error .lumi-input-helper,
+.lumi-input-helper--error { color: var(--lumi-sys-color--error, #ff4c45); }
+.lumi-input:disabled,
+.lumi-input.is-disabled { opacity: var(--lumi-sys-opacity-state--disabled, 0.38); background-color: var(--lumi-sys-color--surface-dim, #f2f0f0); cursor: not-allowed; }
+
+/* --- Focus ring --- */
+:focus-visible { outline: 2px solid var(--lumi-sys-color--on-surface-default, #000) !important; outline-offset: 2px !important; box-shadow: none !important; }
+.lumi-btn:focus-visible,
+.lumi-switch input[type="checkbox"]:focus-visible + .lumi-switch__track,
+.lumi-checkbox-label input[type="checkbox"]:focus-visible ~ .lumi-checkbox,
+.lumi-slider:focus-visible::-webkit-slider-thumb,
+.lumi-input:focus-visible { outline: 2px solid var(--lumi-sys-color--on-surface-default, #000); outline-offset: 2px; box-shadow: none; }
+
+/* --- Typography: Display / Headline / Body / Label --- */
+.lumi-display-l { font-family: var(--lumi-sys-typography-type-scale--display-l-font-name, 'Google Sans Flex', sans-serif); font-size: var(--lumi-sys-typography-type-scale--display-l-font-size, 2.625rem); line-height: var(--lumi-sys-typography-type-scale--display-l-line-height, 3rem); letter-spacing: var(--lumi-sys-typography-type-scale--display-l-font-tracking, 0rem); font-weight: var(--lumi-sys-typography-type-scale--display-l-font-weight, 280); font-variation-settings: "wght" 280, "wdth" 100, "opsz" 42, "ROND" 100; }
+.lumi-display-l-emphasized { font-family: var(--lumi-sys-typography-type-scale--display-l-font-name, 'Google Sans Flex', sans-serif); font-size: var(--lumi-sys-typography-type-scale--display-l-font-size, 2.625rem); line-height: var(--lumi-sys-typography-type-scale--display-l-line-height, 3rem); letter-spacing: var(--lumi-sys-typography-type-scale--display-l-font-tracking, 0rem); font-weight: var(--lumi-sys-typography-type-scale--display-l-font-weight, 280); font-variation-settings: "wght" 280, "wdth" 100, "opsz" 42, "ROND" 100; }
+.lumi-display-m { font-family: var(--lumi-sys-typography-type-scale--display-m-font-name, 'Google Sans Flex', sans-serif); font-size: var(--lumi-sys-typography-type-scale--display-m-font-size, 2.25rem); line-height: var(--lumi-sys-typography-type-scale--display-m-line-height, 2.75rem); letter-spacing: var(--lumi-sys-typography-type-scale--display-m-font-tracking, 0rem); font-weight: var(--lumi-sys-typography-type-scale--display-m-font-weight, 320); font-variation-settings: "wght" 320, "wdth" 100, "opsz" 36, "ROND" 100; }
+.lumi-display-m-emphasized { font-family: var(--lumi-sys-typography-type-scale--display-m-font-name, 'Google Sans Flex', sans-serif); font-size: var(--lumi-sys-typography-type-scale--display-m-font-size, 2.25rem); line-height: var(--lumi-sys-typography-type-scale--display-m-line-height, 2.75rem); letter-spacing: var(--lumi-sys-typography-type-scale--display-m-font-tracking, 0rem); font-weight: var(--lumi-sys-typography-type-scale--display-m-font-weight, 320); font-variation-settings: "wght" 320, "wdth" 100, "opsz" 36, "ROND" 100; }
+.lumi-display-s { font-family: var(--lumi-sys-typography-type-scale--display-s-font-name, 'Google Sans Flex', sans-serif); font-size: var(--lumi-sys-typography-type-scale--display-s-font-size, 2rem); line-height: var(--lumi-sys-typography-type-scale--display-s-line-height, 2.375rem); letter-spacing: var(--lumi-sys-typography-type-scale--display-s-font-tracking, 0rem); font-weight: var(--lumi-sys-typography-type-scale--display-s-font-weight, 360); font-variation-settings: "wght" 360, "wdth" 100, "opsz" 32, "ROND" 100; }
+.lumi-display-s-emphasized { font-family: var(--lumi-sys-typography-type-scale--display-s-font-name, 'Google Sans Flex', sans-serif); font-size: var(--lumi-sys-typography-type-scale--display-s-font-size, 2rem); line-height: var(--lumi-sys-typography-type-scale--display-s-line-height, 2.375rem); letter-spacing: var(--lumi-sys-typography-type-scale--display-s-font-tracking, 0rem); font-weight: var(--lumi-sys-typography-type-scale--display-s-font-weight, 360); font-variation-settings: "wght" 360, "wdth" 100, "opsz" 32, "ROND" 100; }
+.lumi-headline-l { font-family: var(--lumi-sys-typography-type-scale--headline-l-font-name, 'Google Sans Flex', sans-serif); font-size: var(--lumi-sys-typography-type-scale--headline-l-font-size, 1.75rem); line-height: var(--lumi-sys-typography-type-scale--headline-l-line-height, 2.25rem); letter-spacing: var(--lumi-sys-typography-type-scale--headline-l-font-tracking, 0rem); font-weight: var(--lumi-sys-typography-type-scale--headline-l-font-weight, 350); font-variation-settings: "wght" 350, "wdth" 100, "opsz" 28, "ROND" 20; }
+.lumi-headline-l-emphasized { font-family: var(--lumi-sys-typography-type-scale--headline-l-font-name, 'Google Sans Flex', sans-serif); font-size: var(--lumi-sys-typography-type-scale--headline-l-font-size, 1.75rem); line-height: var(--lumi-sys-typography-type-scale--headline-l-line-height, 2.25rem); letter-spacing: var(--lumi-sys-typography-type-scale--headline-l-font-tracking, 0rem); font-weight: var(--lumi-sys-typography-type-scale--headline-l-font-weight, 350); font-variation-settings: "wght" 350, "wdth" 100, "opsz" 28, "ROND" 20; }
+.lumi-headline-m { font-family: var(--lumi-sys-typography-type-scale--headline-m-font-name, 'Google Sans Flex', sans-serif); font-size: var(--lumi-sys-typography-type-scale--headline-m-font-size, 1.5rem); line-height: var(--lumi-sys-typography-type-scale--headline-m-line-height, 1.75rem); letter-spacing: var(--lumi-sys-typography-type-scale--headline-m-font-tracking, 0rem); font-weight: var(--lumi-sys-typography-type-scale--headline-m-font-weight, 380); font-variation-settings: "wght" 380, "wdth" 100, "opsz" 24, "ROND" 20; }
+.lumi-headline-m-emphasized { font-family: var(--lumi-sys-typography-type-scale--headline-m-font-name, 'Google Sans Flex', sans-serif); font-size: var(--lumi-sys-typography-type-scale--headline-m-font-size, 1.5rem); line-height: var(--lumi-sys-typography-type-scale--headline-m-line-height, 1.75rem); letter-spacing: var(--lumi-sys-typography-type-scale--headline-m-font-tracking, 0rem); font-weight: var(--lumi-sys-typography-type-scale--headline-m-font-weight, 380); font-variation-settings: "wght" 380, "wdth" 100, "opsz" 24, "ROND" 20; }
+.lumi-headline-s { font-family: var(--lumi-sys-typography-type-scale--headline-s-font-name, 'Google Sans Flex', sans-serif); font-size: var(--lumi-sys-typography-type-scale--headline-s-font-size, 1.25rem); line-height: var(--lumi-sys-typography-type-scale--headline-s-line-height, 1.5rem); letter-spacing: var(--lumi-sys-typography-type-scale--headline-s-font-tracking, 0rem); font-weight: var(--lumi-sys-typography-type-scale--headline-s-font-weight, 470); font-variation-settings: "wght" 470, "wdth" 94, "opsz" 20, "ROND" 20; }
+.lumi-headline-s-emphasized { font-family: var(--lumi-sys-typography-type-scale--headline-s-font-name, 'Google Sans Flex', sans-serif); font-size: var(--lumi-sys-typography-type-scale--headline-s-font-size, 1.25rem); line-height: var(--lumi-sys-typography-type-scale--headline-s-line-height, 1.5rem); letter-spacing: var(--lumi-sys-typography-type-scale--headline-s-font-tracking, 0rem); font-weight: var(--lumi-sys-typography-type-scale--headline-s-font-weight, 470); font-variation-settings: "wght" 470, "wdth" 94, "opsz" 20, "ROND" 20; }
+.lumi-body-l { font-family: var(--lumi-sys-typography-type-scale--body-l-font-name, 'Google Sans Flex', sans-serif); font-size: var(--lumi-sys-typography-type-scale--body-l-font-size, 1.0625rem); line-height: var(--lumi-sys-typography-type-scale--body-l-line-height, 1.5rem); letter-spacing: var(--lumi-sys-typography-type-scale--body-l-font-tracking, 0rem); font-weight: var(--lumi-sys-typography-type-scale--body-l-font-weight, 400); font-variation-settings: "wght" 400, "wdth" 92, "opsz" 17; }
+.lumi-body-l-emphasized { font-family: var(--lumi-sys-typography-type-scale--body-l-font-name, 'Google Sans Flex', sans-serif); font-size: var(--lumi-sys-typography-type-scale--body-l-font-size, 1.0625rem); line-height: var(--lumi-sys-typography-type-scale--body-l-line-height, 1.5rem); letter-spacing: var(--lumi-sys-typography-type-scale--body-l-font-tracking, 0rem); font-weight: 540; font-variation-settings: "wght" 540, "wdth" 92, "opsz" 17; font-variant-numeric: tabular-nums; }
+.lumi-body-m { font-family: var(--lumi-sys-typography-type-scale--body-m-font-name, 'Google Sans Flex', sans-serif); font-size: var(--lumi-sys-typography-type-scale--body-m-font-size, 0.9375rem); line-height: var(--lumi-sys-typography-type-scale--body-m-line-height, 1.25rem); letter-spacing: var(--lumi-sys-typography-type-scale--body-m-font-tracking, 0rem); font-weight: var(--lumi-sys-typography-type-scale--body-m-font-weight, 400); font-variation-settings: "wght" 400, "wdth" 92, "opsz" 15; }
+.lumi-body-m-emphasized { font-family: var(--lumi-sys-typography-type-scale--body-m-font-name, 'Google Sans Flex', sans-serif); font-size: var(--lumi-sys-typography-type-scale--body-m-font-size, 0.9375rem); line-height: var(--lumi-sys-typography-type-scale--body-m-line-height, 1.25rem); letter-spacing: var(--lumi-sys-typography-type-scale--body-m-font-tracking, 0rem); font-weight: 540; font-variation-settings: "wght" 540, "wdth" 92, "opsz" 15; font-variant-numeric: tabular-nums; }
+.lumi-body-s { font-family: var(--lumi-sys-typography-type-scale--body-s-font-name, 'Google Sans Flex', sans-serif); font-size: var(--lumi-sys-typography-type-scale--body-s-font-size, 0.8125rem); line-height: var(--lumi-sys-typography-type-scale--body-s-line-height, 1.0625rem); letter-spacing: var(--lumi-sys-typography-type-scale--body-s-font-tracking, 0rem); font-weight: var(--lumi-sys-typography-type-scale--body-s-font-weight, 400); font-variation-settings: "wght" 400, "wdth" 92, "opsz" 13; }
+.lumi-body-s-emphasized { font-family: var(--lumi-sys-typography-type-scale--body-s-font-name, 'Google Sans Flex', sans-serif); font-size: var(--lumi-sys-typography-type-scale--body-s-font-size, 0.8125rem); line-height: var(--lumi-sys-typography-type-scale--body-s-line-height, 1.0625rem); letter-spacing: var(--lumi-sys-typography-type-scale--body-s-font-tracking, 0rem); font-weight: 540; font-variation-settings: "wght" 540, "wdth" 92, "opsz" 13; font-variant-numeric: tabular-nums; }
+.lumi-label-l { font-family: var(--lumi-sys-typography-type-scale--label-l-font-name, 'Google Sans Flex', sans-serif); font-size: var(--lumi-sys-typography-type-scale--label-l-font-size, 1.0625rem); line-height: var(--lumi-sys-typography-type-scale--label-l-line-height, 1.5rem); letter-spacing: var(--lumi-sys-typography-type-scale--label-l-font-tracking, 0rem); font-weight: var(--lumi-sys-typography-type-scale--label-l-font-weight, 370); font-variation-settings: "wght" 370, "wdth" 92, "opsz" 17; }
+.lumi-label-l-emphasized { font-family: var(--lumi-sys-typography-type-scale--label-l-font-name, 'Google Sans Flex', sans-serif); font-size: var(--lumi-sys-typography-type-scale--label-l-font-size, 1.0625rem); line-height: var(--lumi-sys-typography-type-scale--label-l-line-height, 1.5rem); letter-spacing: var(--lumi-sys-typography-type-scale--label-l-font-tracking, 0rem); font-weight: var(--lumi-sys-typography-type-scale--label-l-font-weight, 370); font-variation-settings: "wght" 370, "wdth" 92, "opsz" 17; }
+.lumi-label-m { font-family: var(--lumi-sys-typography-type-scale--label-m-font-name, 'Google Sans Flex', sans-serif); font-size: var(--lumi-sys-typography-type-scale--label-m-font-size, 0.9375rem); line-height: var(--lumi-sys-typography-type-scale--label-m-line-height, 1.25rem); letter-spacing: var(--lumi-sys-typography-type-scale--label-m-font-tracking, 0rem); font-weight: var(--lumi-sys-typography-type-scale--label-m-font-weight, 370); font-variation-settings: "wght" 370, "wdth" 92, "opsz" 15; }
+.lumi-label-m-emphasized { font-family: var(--lumi-sys-typography-type-scale--label-m-font-name, 'Google Sans Flex', sans-serif); font-size: var(--lumi-sys-typography-type-scale--label-m-font-size, 0.9375rem); line-height: var(--lumi-sys-typography-type-scale--label-m-line-height, 1.25rem); letter-spacing: var(--lumi-sys-typography-type-scale--label-m-font-tracking, 0rem); font-weight: var(--lumi-sys-typography-type-scale--label-m-font-weight, 370); font-variation-settings: "wght" 370, "wdth" 92, "opsz" 15; }
+.lumi-label-s { font-family: var(--lumi-sys-typography-type-scale--label-s-font-name, 'Google Sans Flex', sans-serif); font-size: var(--lumi-sys-typography-type-scale--label-s-font-size, 0.8125rem); line-height: var(--lumi-sys-typography-type-scale--label-s-line-height, 1.25rem); letter-spacing: var(--lumi-sys-typography-type-scale--label-s-font-tracking, 0rem); font-weight: var(--lumi-sys-typography-type-scale--label-s-font-weight, 370); font-variation-settings: "wght" 370, "wdth" 92, "opsz" 13; }
+.lumi-label-s-emphasized { font-family: var(--lumi-sys-typography-type-scale--label-s-font-name, 'Google Sans Flex', sans-serif); font-size: var(--lumi-sys-typography-type-scale--label-s-font-size, 0.8125rem); line-height: var(--lumi-sys-typography-type-scale--label-s-line-height, 1.25rem); letter-spacing: var(--lumi-sys-typography-type-scale--label-s-font-tracking, 0rem); font-weight: var(--lumi-sys-typography-type-scale--label-s-font-weight, 370); font-variation-settings: "wght" 370, "wdth" 92, "opsz" 13; }
+
+/* --- Typography: Blockquote / Takeaway / Caption / Code --- */
+.lumi-blockquote { font-family: var(--ff-sans, 'Google Sans Flex', sans-serif) !important; font-style: normal !important; font-size: 22px; line-height: 30px; font-weight: 300; font-variation-settings: "wght" 300, "opsz" 22; }
+.lumi-takeaway { font-family: var(--ff-sans, 'Google Sans Flex', sans-serif) !important; font-style: normal !important; font-size: 17px; line-height: 24px; font-weight: 400; font-variation-settings: "wght" 400, "opsz" 17; }
+.lumi-caption { font-family: var(--ff-sans, 'Google Sans Flex', sans-serif) !important; font-style: normal !important; font-size: 13px; line-height: 20px; font-weight: 400; font-variation-settings: "wght" 400, "opsz" 13; }
+.lumi-code { font-family: var(--ff-mono, 'Google Sans Code', monospace); font-size: 15px; line-height: 20px; font-weight: 400; font-variation-settings: "wght" 400, "MONO" 1; }
+.lumi-bullet { font-family: var(--ff-mono, 'Google Sans Code', monospace); font-size: 15px; line-height: 24px; font-weight: 650; font-variation-settings: "wght" 650, "MONO" 1; }
+
+/* --- Cards & attribution --- */
+.lumi-summary-card { padding: var(--lumi-sys-spacing--l, 16px); background-color: var(--lumi-sys-color--surface-bright, #fff); border-radius: var(--lumi-sys-shape--medium, 12px); color: var(--lumi-sys-color--on-surface-default, #000); font-family: var(--ff-sans, 'Google Sans Flex', sans-serif); font-size: 15px; line-height: 20px; box-sizing: border-box; }
+.lumi-link-card { display: flex; align-items: center; justify-content: space-between; padding: var(--lumi-sys-spacing--l, 16px); background-color: var(--lumi-sys-color--surface-bright, #fff); border-radius: var(--lumi-sys-shape--medium, 12px); text-decoration: none; color: var(--lumi-sys-color--on-surface-default, #000); transition: background-color 0.15s; box-sizing: border-box; }
+.lumi-link-card:hover { background-color: var(--lumi-sys-color--surface-container-high, #e6e6e6); }
+.lumi-attribution-buffer { margin-top: var(--lumi-sys-spacing--xxl, 24px); font-family: var(--ff-sans, 'Google Sans Flex', sans-serif); font-size: 13px; color: var(--lumi-sys-color--on-surface-de-emphasis, rgba(0, 0, 0, 0.55)); }
+.lumi-card { background-color: var(--lumi-sys-color--surface-bright, #fff); border-radius: var(--lumi-sys-shape--xl-max, 40px); padding: var(--lumi-sys-spacing--3xl, 28px); display: flex; flex-direction: column; gap: var(--lumi-sys-spacing--s, 8px); width: 100%; box-sizing: border-box; }
+.lumi-card.is-prominent,
+.lumi-card--prominent,
+.lumi-card.surface-dim { background-color: var(--lumi-sys-color--surface-dim, #f2f0f0); }
+.lumi-card--prominent .lumi-chip,
+.lumi-card.surface-dim .lumi-chip { background: var(--lumi-sys-color--surface-bright, #fff); }
+.lumi-card-title { font-family: var(--ff-sans, 'Google Sans Flex', sans-serif); font-size: 20px; font-weight: 500; font-variation-settings: "wght" 470, "wdth" 94, "opsz" 20; color: var(--lumi-sys-color--on-surface, #000); margin: 0; }
+.lumi-card-subtitle { font-family: var(--ff-sans, 'Google Sans Flex', sans-serif); font-size: 13px; font-weight: 400; font-variation-settings: "wght" 400, "wdth" 92, "opsz" 13; color: var(--lumi-sys-color--on-surface-variant, rgba(0, 0, 0, 0.55)); margin: 0; }
+.lumi-card-body { font-family: var(--ff-sans, 'Google Sans Flex', sans-serif); font-size: 15px; font-weight: 400; font-variation-settings: "wght" 400, "wdth" 92, "opsz" 15; color: var(--lumi-sys-color--on-surface, #000); margin: var(--lumi-sys-spacing--xs, 4px) 0 0 0; }
+
+/* --- Progress bar --- */
+.lumi-progress-tracker { display: flex; flex-direction: column; gap: var(--lumi-sys-spacing--xs, 4px); width: 100%; }
+.lumi-progress-bar { width: 100%; height: 8px; background-color: var(--lumi-sys-color--stroke-default, #e3e3e3); border-radius: var(--lumi-sys-shape--full, 999px); overflow: hidden; }
+.lumi-progress-fill { height: 100%; background-color: var(--lumi-sys-color--accent-fixed, #3186ff); border-radius: var(--lumi-sys-shape--full, 999px); transition: width 0.3s; }
+
+/* --- Accordion (card group variant) --- */
+.lumi-accordion-group { display: flex; flex-direction: column; gap: var(--lumi-sys-spacing--s, 8px); }
+.lumi-accordion-group .lumi-accordion-item { background-color: var(--lumi-sys-color--surface-container, #f2f0f0); border-radius: var(--lumi-sys-shape--medium, 12px); overflow: hidden; transition: background-color 0.15s; }
+.lumi-accordion-group .lumi-accordion-header { padding: var(--lumi-sys-spacing--l, 16px); font-family: var(--ff-sans, sans-serif); font-size: 15px; font-weight: 540; cursor: pointer; user-select: none; display: flex; justify-content: space-between; align-items: center; color: var(--lumi-sys-color--on-surface-default, #000); }
+.lumi-accordion-group .lumi-accordion-chevron { transition: transform 0.2s; font-size: 12px; }
+.lumi-accordion-group .lumi-accordion-item.active .lumi-accordion-chevron { transform: rotate(180deg); }
+.lumi-accordion-group .lumi-accordion-body { display: none; padding: 0 var(--lumi-sys-spacing--l, 16px) var(--lumi-sys-spacing--l, 16px) var(--lumi-sys-spacing--l, 16px); font-family: var(--ff-sans, sans-serif); font-size: 15px; color: var(--lumi-sys-color--on-surface-de-emphasis, rgba(0, 0, 0, 0.55)); line-height: 20px; }
+.lumi-accordion-group .lumi-accordion-item.active .lumi-accordion-body { display: block; }
+
+/* --- Accordion (borderless list variant) --- */
+.lumi-accordion { display: flex; flex-direction: column; width: 100%; border-top: 1px solid var(--lumi-sys-color--on-surface-low, rgba(0, 0, 0, 0.08)); }
+.lumi-accordion-item { display: flex; flex-direction: column; width: 100%; background: transparent; border-radius: 0; border-bottom: 1px solid var(--lumi-sys-color--on-surface-low, rgba(0, 0, 0, 0.08)); }
+.lumi-accordion-header { display: flex; justify-content: space-between; align-items: center; padding: var(--lumi-sys-spacing--xl, 20px) 0; cursor: pointer; user-select: none; }
+.lumi-accordion-title { margin: 0; color: var(--lumi-sys-color--on-surface-default, #000); }
+.lumi-accordion-item.active .lumi-accordion-content { display: flex; flex-direction: column; gap: var(--lumi-sys-spacing--l, 16px); }
+.lumi-accordion-content { display: none; padding-bottom: var(--lumi-sys-spacing--xxl, 24px); }
+.lumi-accordion-field { display: flex; flex-direction: column; gap: var(--lumi-sys-spacing--xxs, 2px); }
+.lumi-accordion-field-label { margin: 0; color: var(--lumi-sys-color--on-surface-default, #000); }
+.lumi-accordion-field-val { margin: 0; color: var(--lumi-sys-color--on-surface-default, #000); }
+
+/* --- Segmented control --- */
+.lumi-segmented-group { display: flex; background-color: var(--lumi-sys-color--surface-container, #f2f0f0); padding: 4px; border-radius: var(--lumi-sys-shape--full, 999px); gap: 4px; }
+.lumi-segmented-btn { flex: 1 1 0%; padding: 8px 16px; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; border-radius: var(--lumi-sys-shape--full, 999px); background-color: transparent; font-family: var(--ff-sans, sans-serif); font-size: 14px; font-weight: 510; cursor: pointer; color: var(--lumi-sys-color--on-surface-de-emphasis, rgba(0, 0, 0, 0.55)); transition: 0.2s; }
+.lumi-segmented-btn.is-active,
+.lumi-segmented-btn.active,
+.lumi-segmented-btn.is-selected,
+.lumi-segmented-btn.selected,
+.lumi-segmented-btn[aria-selected="true"] { background-color: var(--lumi-sys-color--surface-bright, #fff); color: var(--lumi-sys-color--on-surface-default, #000); box-shadow: var(--lumi-sys-elevation--level1); }
+
+/* --- Tabs --- */
+.lumi-tab-group { display: flex; flex-direction: column; gap: var(--lumi-sys-spacing--4xl, 36px); width: 100%; }
+.lumi-tab-bar { display: flex; gap: var(--lumi-sys-spacing--l, 16px); padding-bottom: 0; overflow-x: auto; scrollbar-width: none; }
+.lumi-tab-bar::-webkit-scrollbar { display: none; }
+.lumi-tab { height: 40px; padding: 0 var(--lumi-sys-spacing--xl, 20px); display: flex; align-items: center; justify-content: center; font-family: var(--ff-sans, 'Google Sans Flex', sans-serif); font-size: 17px; line-height: 24px; font-weight: 370; font-variation-settings: "wght" 370, "wdth" 92, "opsz" 17; color: var(--lumi-sys-color--on-surface-de-emphasis, rgba(0, 0, 0, 0.55)); background: transparent; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; border-radius: var(--lumi-sys-shape--full, 999px); cursor: pointer; white-space: nowrap; transition: background-color 0.15s, color 0.15s; }
+.lumi-tab:hover { color: var(--lumi-sys-color--on-surface-default, #000); }
+.lumi-tab.active,
+.lumi-tab.is-active,
+.lumi-tab.is-selected,
+.lumi-tab.selected,
+.lumi-tab[aria-selected="true"] { background-color: var(--lumi-sys-color--surface-container-high, #f2f0f0); color: var(--lumi-sys-color--on-surface-default, #000); font-weight: 510; font-variation-settings: "wght" 510, "wdth" 92, "opsz" 17; }
+.lumi-tab-content { display: flex; flex-direction: column; gap: var(--lumi-sys-spacing--m, 12px); padding-top: 0; padding-bottom: 0; }
+.lumi-tab-content .lumi-body-l-emphasized,
+.lumi-tab-content .lumi-headline-s { margin: 0; }
+.lumi-tab-content .lumi-body-l { margin: 0; color: var(--lumi-sys-color--on-surface-default, #000); }
+
+/* --- Callout / pullquote --- */
+.lumi-callout { display: flex; flex-direction: column; gap: var(--lumi-sys-spacing--xs, 4px); width: 100%; }
+.lumi-callout .lumi-body-l-emphasized { margin: 0; }
+.lumi-pullquote { display: flex; gap: var(--lumi-sys-spacing--xl, 20px); width: 100%; margin: 0; }
+.lumi-pullquote-mark { width: 30px; height: 22px; flex-shrink: 0; margin-top: 4px; color: var(--lumi-sys-color--on-surface-default, #000); }
+.lumi-pullquote-body { display: flex; flex-direction: column; gap: var(--lumi-sys-spacing--l, 16px); flex: 1 1 0%; min-width: 0; }
+p.lumi-pullquote-text, .lumi-pullquote-text { font-family: var(--ff-sans, 'Google Sans Flex', sans-serif) !important; font-style: normal !important; font-weight: 300; font-variation-settings: "wght" 300, "opsz" 22; color: var(--lumi-sys-color--on-surface-default, #000); margin: 0; font-size: 22px !important; line-height: 30px !important; }
+.lumi-pullquote-cite { display: flex; flex-direction: column; font-style: normal; }
+.lumi-pullquote-cite .lumi-de-emphasis { color: var(--lumi-sys-color--on-surface-de-emphasis, rgba(0, 0, 0, 0.55)); }
+
+/* --- Data table (simple) --- */
+.lumi-data-table-container { width: 100%; overflow-x: auto; border-radius: var(--lumi-sys-shape--medium, 12px); border: 1px solid var(--lumi-sys-color--stroke-default, rgba(0, 0, 0, 0.12)); }
+.lumi-data-table { width: 100%; border-collapse: collapse; font-family: var(--ff-sans, sans-serif); font-size: 14px; text-align: left; }
+.lumi-data-table th { padding: 12px 16px; font-weight: 600; background-color: var(--lumi-sys-color--surface-container, #f2f0f0); border-bottom: 1px solid var(--lumi-sys-color--stroke-default, rgba(0, 0, 0, 0.12)); color: var(--lumi-sys-color--on-surface-default, #000); }
+.lumi-data-table td { padding: 12px 16px; border-bottom: 1px solid var(--lumi-sys-color--stroke-default, rgba(0, 0, 0, 0.12)); color: var(--lumi-sys-color--on-surface-default, #000); }
+.lumi-data-table tr:last-child td { border-bottom-width: medium; border-bottom-style: none; border-bottom-color: currentcolor; }
+
+/* --- Table widget (prose-style) --- */
+.lumi-table-widget { display: flex; flex-direction: column; gap: var(--lumi-sys-spacing--xxl, 24px); width: 100%; }
+.lumi-table-title { margin: 0; color: var(--lumi-sys-color--on-surface-default, #000); }
+.lumi-table { width: 100%; table-layout: auto; border-collapse: collapse; font-family: var(--ff-sans, 'Google Sans Flex', sans-serif); text-align: left; }
+.lumi-table th { padding: 12px 16px 12px 0; font-size: 17px; line-height: 24px; font-weight: 540; font-variation-settings: "wght" 540, "wdth" 92, "opsz" 17; color: var(--lumi-sys-color--on-surface-default, #000); border-bottom: 1px solid var(--lumi-sys-color--on-surface-low, rgba(0, 0, 0, 0.08)); }
+.lumi-table td { padding: 16px 16px 16px 0; font-size: 17px; line-height: 24px; font-weight: 400; font-variation-settings: "wght" 400, "wdth" 92, "opsz" 17; color: var(--lumi-sys-color--on-surface-default, #000); border-bottom: 1px solid var(--lumi-sys-color--on-surface-low, rgba(0, 0, 0, 0.08)); }
+.lumi-table td:last-child,
+.lumi-table th:last-child { padding-right: 0; }
+/* Comparison: highlight the chosen column as ONE clean card — fill + rounded top/bottom, and stop the row rules at its edges (transparent bottom-border) so lines never slice the card. */
+.lumi-table th.is-pick,
+.lumi-table td.is-pick { background: var(--surface-dim); border-bottom-color: transparent; padding-left: 16px; }
+.lumi-table th.is-pick { border-radius: var(--r-s) var(--r-s) 0 0; }
+.lumi-table tbody tr:last-child td.is-pick { border-radius: 0 0 var(--r-s) var(--r-s); }
+.lumi-table .pick-col { color: var(--accent-fixed); }
+.lumi-table tr.lumi-table-ellipsis-row td { padding: 16px 0 0; border-bottom-width: medium; border-bottom-style: none; border-bottom-color: currentcolor; color: var(--lumi-sys-color--on-surface-variant, rgba(0, 0, 0, 0.55)); }
+
+/* --- Luminous Spec Table (Figma 8543-1878) --- */
+.lumi-spec-table-container { width: 100%; overflow-x: auto; background: transparent; }
+.lumi-spec-table { width: 100%; border-collapse: collapse; font-family: var(--ff-sans, 'Google Sans Flex', sans-serif); text-align: left; background: transparent; }
+.lumi-spec-table th { padding: 12px 28px 16px 0; font-size: 17px; line-height: 24px; font-weight: 540; font-variation-settings: "wght" 540, "wdth" 100, "opsz" 17; color: var(--lumi-sys-color--on-surface-default, #000); border-bottom: 1px solid var(--lumi-sys-color--on-surface-low, rgba(0, 0, 0, 0.08)); background: transparent; }
+.lumi-spec-table td { padding: 16px 28px 16px 0; border-bottom: 1px solid var(--lumi-sys-color--on-surface-low, rgba(0, 0, 0, 0.08)); vertical-align: top; background: transparent; }
+.lumi-spec-table th:last-child,
+.lumi-spec-table td:last-child { padding-right: 0; }
+.lumi-spec-label { display: block; font-family: var(--ff-sans, 'Google Sans Flex', sans-serif); font-size: 13px; line-height: 17px; font-weight: 400; font-variation-settings: "wght" 400, "wdth" 92, "opsz" 13; color: var(--lumi-sys-color--on-surface-variant, rgba(0, 0, 0, 0.55)); margin-bottom: 2px; }
+.lumi-spec-value { display: block; font-family: var(--ff-sans, 'Google Sans Flex', sans-serif); font-size: 15px; line-height: 20px; font-weight: 400; font-variation-settings: "wght" 400, "wdth" 92, "opsz" 15; color: var(--lumi-sys-color--on-surface-default, #000); }
+.lumi-spec-table-more { display: flex; align-items: center; justify-content: center; padding: 12px; color: var(--lumi-sys-color--on-surface-variant, rgba(0, 0, 0, 0.55)); font-size: 15px; line-height: 20px; cursor: pointer; }
+
+/* --- Code block --- */
+.lumi-code-block { background-color: var(--lumi-sys-color--code-background, #000); border-radius: var(--lumi-sys-shape--xl-max, 40px); padding: 32px; display: flex; flex-direction: column; gap: var(--lumi-sys-spacing--l, 16px); width: 100%; box-sizing: border-box; }
+.lumi-code-header { display: flex; justify-content: space-between; align-items: center; width: 100%; }
+.lumi-code-lang { font-family: var(--ff-sans, 'Google Sans Flex', sans-serif); font-size: 15px; font-weight: 500; font-variation-settings: "wght" 540, "wdth" 92, "opsz" 15; color: var(--lumi-sys-color--code-primary-text, #fff); }
+.lumi-code-copy { background: transparent; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; color: var(--lumi-sys-color--code-primary-text, #fff); cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 4px; border-radius: var(--lumi-sys-shape--full, 999px); transition: background-color 0.2s; }
+.lumi-code-copy:hover { background-color: rgba(255, 255, 255, 0.1); }
+.lumi-code-snippet { margin: 0; overflow-x: auto; width: 100%; }
+.lumi-code-snippet code { font-family: var(--ff-mono, 'Google Sans Code', monospace); font-size: 15px; line-height: 20px; color: var(--lumi-sys-color--code-primary-text, #fff); display: block; white-space: pre; }
+
+/* --- Section / prose --- */
+.lumi-section { display: flex; flex-direction: column; align-items: stretch; width: 100%; }
+.lumi-section h1 { font-family: var(--ff-sans, 'Google Sans Flex', sans-serif); font-size: 28px; line-height: 36px; font-weight: 350; font-variation-settings: "wght" 350, "wdth" 100, "opsz" 28; color: var(--lumi-sys-color--on-surface, #000); margin-top: var(--lumi-sys-spacing--m, 12px); margin-bottom: var(--lumi-sys-spacing--xxl, 24px); }
+.lumi-section h1:first-child { margin-top: 0; }
+.lumi-section h2 { font-family: var(--ff-sans, 'Google Sans Flex', sans-serif); font-size: 24px; line-height: 28px; font-weight: 380; font-variation-settings: "wght" 380, "wdth" 100, "opsz" 24; color: var(--lumi-sys-color--on-surface, #000); margin-top: var(--lumi-sys-spacing--m, 12px); margin-bottom: var(--lumi-sys-spacing--m, 12px); }
+.lumi-section h2:first-child { margin-top: 0; }
+.lumi-section h3 { font-family: var(--ff-sans, 'Google Sans Flex', sans-serif); font-size: 20px; line-height: 24px; font-weight: 470; font-variation-settings: "wght" 470, "wdth" 94, "opsz" 20; color: var(--lumi-sys-color--on-surface, #000); margin-top: var(--lumi-sys-spacing--m, 12px); margin-bottom: var(--lumi-sys-spacing--xs, 4px); }
+.lumi-section h3:first-child { margin-top: 0; }
+.lumi-section p { font-family: var(--ff-sans, 'Google Sans Flex', sans-serif); font-size: 17px; line-height: 24px; font-weight: 400; font-variation-settings: "wght" 400, "wdth" 92, "opsz" 17; color: var(--lumi-sys-color--on-surface, #000); margin-top: 0; margin-bottom: var(--lumi-sys-spacing--m, 12px); }
+.lumi-section p:last-child { margin-bottom: 0; }
+.lumi-section ul { list-style: none; padding: 0; margin: 0 0 var(--lumi-sys-spacing--m, 12px) 0; width: 100%; }
+.lumi-section ul:last-child { margin-bottom: 0; }
+.lumi-section ul:not([class]) > li:not([class]) { position: relative; padding-left: 40px; padding-bottom: 12px; font-family: var(--ff-sans, 'Google Sans Flex', sans-serif); font-size: 17px; line-height: 24px; font-weight: 400; font-variation-settings: "wght" 400, "wdth" 92, "opsz" 17; color: var(--lumi-sys-color--on-surface, #000); box-sizing: border-box; }
+.lumi-section ul:not([class]) > li:not([class]):last-child { padding-bottom: 0; }
+.lumi-section ul:not([class]) > li:not([class])::before { content: "○"; position: absolute; left: 3.5px; top: 0; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; font-family: var(--ff-mono, 'Google Sans Code', monospace); font-size: 15px; font-weight: 650; font-variation-settings: "MONO" 1, "wght" 650; color: var(--lumi-sys-color--on-surface, #000); }
+.lumi-section ul:not([class]) > li:not([class]) ul { margin-top: 12px; margin-bottom: 0; padding-left: 40px; }
+
+/* --- Chart legend (1:1 series color match) --- */
+.lumi-chart-header,
+.lumi-chart-title { margin-bottom: 32px; }
+.lumi-chart-legend { display: flex; justify-content: center; align-items: center; gap: 24px; margin-top: 32px; padding-top: 0; width: 100%; flex-wrap: wrap; }
+.lumi-legend-item { display: inline-flex; align-items: center; gap: 8px; }
+.lumi-legend-dot { width: 20px; height: 20px; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.lumi-legend-dot-swatch { width: 20px; height: 20px; border-radius: 50%; display: block; }
+span.lumi-legend-dot[style*="background"] { width: 20px; height: 20px; border-radius: 50%; flex-shrink: 0; display: inline-block; }
+.lumi-legend-label { font-family: var(--ff-sans, 'Google Sans Flex', sans-serif) !important; font-style: normal !important; font-size: 13px; font-weight: 400; line-height: 20px; color: var(--lumi-sys-color--on-surface, #000); font-variation-settings: "wght" 400, "opsz" 13; font-feature-settings: "kern" 1, "liga" 1; white-space: nowrap; }
+
+/* Canonical themed <select>. Uses element+class specificity (select.lumi-select)
+   so it intentionally wins over any model hand-rolled `.lumi-select` rule: the
+   runtime stylesheet is injected before widget <style> blocks, so a bare
+   `.lumi-select` (same specificity, later) would otherwise override it. This
+   provides appearance:none + a theme-neutral chevron so no native OS arrow leaks. */
+select.lumi-select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 100%;
+  padding: var(--lumi-sys-spacing--s, 8px) 40px var(--lumi-sys-spacing--s, 8px)
+    var(--lumi-sys-spacing--m, 12px);
+  border: 1px solid var(--stroke-default);
+  border-radius: var(--r-full, 999px);
+  background-color: var(--surface);
+  color: var(--on-surface);
+  font-family: var(--ff-sans, 'Google Sans Flex', sans-serif);
+  font-size: 15px;
+  line-height: 20px;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2380868b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  background-size: 14px;
+}
+select.lumi-select:focus-visible {
+  outline: 2px solid var(--lumi-sys-color--accent-fixed, #3186ff);
+  outline-offset: 2px;
+}
+
+/* Toggle / filter chip. Models frequently emit `<button class="lumi-chip">`
+   (optionally `.is-active`/`.is-selected`) for toggle pills; without a
+   canonical rule these fall back to native (retro) browser button chrome.
+   Theme-aware via runtime tokens so it is correct in light and dark. */
+.lumi-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--lumi-sys-spacing--s, 8px);
+  min-height: 32px;
+  padding: 0 16px;
+  font-family: var(--ff-sans, 'Google Sans Flex', 'Google Sans', sans-serif);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  color: var(--lumi-sys-color--on-surface-default, #1f1f1f);
+  background: var(--lumi-sys-color--surface-dim, #f2f0f0);
+  border: 1px solid transparent;
+  border-radius: var(--lumi-sys-shape--full, 999px);
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+  box-sizing: border-box;
+  transition: background-color 0.15s, color 0.15s, border-color 0.15s;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.lumi-chip:hover {
+  background: var(--lumi-sys-color--surface-container-high, #e6e6e6);
+}
+.lumi-chip.is-active,
+.lumi-chip.active,
+.lumi-chip.is-selected,
+.lumi-chip.selected,
+.lumi-chip[aria-pressed="true"],
+.lumi-chip[aria-selected="true"] {
+  color: var(--lumi-sys-color--accent-fixed, #3186ff);
+  background: var(--lumi-sys-color--accent-container, rgba(49, 134, 255, 0.14));
+  border-color: transparent;
+  font-weight: 600;
+}
+.lumi-chip:focus-visible {
+  outline: 2px solid var(--lumi-sys-color--accent-fixed, #3186ff);
+  outline-offset: 2px;
+}
+
+/* ============================================================
+ * DIAGRAM GUARD — SVG <text> is fill-only.
+ *   An inherited group stroke (e.g. `.node:hover { stroke }` on a <g>)
+ *   otherwise cascades into child <text>, thickening glyph outlines
+ *   (fake-bold) and recoloring the label. Highlight strokes belong on
+ *   shapes (rect/path); text never paints a stroke.
+ * ============================================================ */
+svg text {
+  paint-order: stroke fill;
+  stroke: var(--surface, #fdfcfc);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+}
+
+
+/* ============================================================
+   COMPOSITE WIDGETS & LAYOUT (composed on top of core library)
+   ============================================================ */
+.lumi-time-content,
+.lumi-seq-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.lumi-display {
+  font-family: var(--ff-sans, 'Google Sans Flex', sans-serif);
+  font-size: 40px;
+  line-height: 46px;
+  font-weight: 320;
+  font-variation-settings: "wght" 320, "wdth" 100, "opsz" 40, "ROND" 100;
+  letter-spacing: -0.02em;
+  color: var(--on-surface);
+}
+.lumi-dashboard-hud {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
+  gap: 16px;
+  width: 100%;
+  padding: 20px 0;
+  border-top: 1px solid var(--surface-dim);
+  border-bottom: 1px solid var(--surface-dim);
+}
+.lumi-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+  width: 100%;
+}
+.lumi-tldr {
+  font-family: var(--ff-sans, 'Google Sans Flex', sans-serif);
+  font-size: 19px;
+  line-height: 28px;
+  font-weight: 380;
+  color: var(--on-surface);
+  max-width: 880px;
+  margin: 0;
+}
+/* Comparison layout primitive (side-by-side, borderless) */
+.lumi-comparison {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lumi-sys-spacing--xxl);
+  width: 100%;
+}
+@media (min-width: 600px) {
+  .lumi-comparison { flex-direction: row; }
+}
+.lumi-comp-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--lumi-sys-spacing--s);
+}
+.lumi-comp-media-wrap {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background-color: var(--lumi-sys-color--surface-dim);
+  border-radius: var(--lumi-sys-shape--corner-large, 16px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.lumi-comp-media { max-width: 90%; max-height: 90%; object-fit: contain; }
+.lumi-comp-specs {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lumi-sys-spacing--m);
+  margin-top: var(--lumi-sys-spacing--s);
+}
+.lumi-spec-row { display: flex; align-items: flex-start; gap: var(--lumi-sys-spacing--s); }
+.lumi-spec-text { display: flex; flex-direction: column; }
+
+.lumi-pros-cons {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lumi-sys-spacing--xxl);
+  width: 100%;
+}
+@media (min-width: 600px) {
+  .lumi-pros-cons { flex-direction: row; }
+}
+.lumi-pc-column,
+.lumi-pros-col,
+.lumi-cons-col {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lumi-sys-spacing--l);
+}
+.lumi-pc-list,
+.lumi-pros-list,
+.lumi-cons-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--lumi-sys-spacing--s);
+}
+.lumi-pc-list .marker { font-size: 20px; margin-top: 2px; }
+/* Component lists carry their own markers/rings; opt out of the generic prose bullet */
+:where(.lumi-pc-list li, .lumi-pros-list li, .lumi-cons-list li, .lumi-seq-step, .lumi-sequence li, .lumi-timeline li, .lumi-timeline-item) { padding-left: 0; }
+.lumi-pc-list li::before,
+.lumi-pros-list li::before,
+.lumi-cons-list li::before,
+.lumi-seq-step::before,
+.lumi-sequence li::before,
+.lumi-timeline li::before,
+.lumi-timeline-item::before { content: none; }
+.lumi-pc-list li,
+.lumi-pros-list li,
+.lumi-cons-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--lumi-sys-spacing--l);
+  font-size: 15px;
+  line-height: 22px;
+  color: var(--on-surface);
+}
+.lumi-sequence {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.lumi-seq-step {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--lumi-sys-spacing--l);
+  position: relative;
+  padding-bottom: var(--lumi-sys-spacing--l);
+}
+.lumi-seq-step:last-child { padding-bottom: 0; }
+.lumi-seq-num {
+  width: 20px;
+  height: 20px;
+  margin: 2px 2px 0 2px;
+  border-radius: 50%;
+  border: 1.3px solid var(--lumi-sys-color--on-surface);
+  background-color: transparent;
+  color: var(--lumi-sys-color--on-surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  z-index: 2;
+}
+.lumi-seq-num span {
+  display: block;
+  width: 100%;
+  text-align: center;
+  font-family: var(--ff-sans);
+  font-size: 13px;
+  line-height: 1;
+  letter-spacing: 0;
+  font-weight: 400;
+  font-variation-settings: "wght" 400, "wdth" 92, "opsz" 13;
+}
+.lumi-seq-step:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 30px;
+  bottom: 6px;
+  left: 11px;
+  width: 2px;
+  background-color: var(--lumi-sys-color--on-surface);
+  -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='2' height='4'><circle cx='1' cy='2' r='0.65' fill='black'/></svg>");
+  -webkit-mask-repeat: repeat-y;
+  -webkit-mask-size: 2px 4px;
+  mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='2' height='4'><circle cx='1' cy='2' r='0.65' fill='black'/></svg>");
+  mask-repeat: repeat-y;
+  mask-size: 2px 4px;
+  z-index: 1;
+}
+.lumi-seq-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lumi-sys-spacing--xs);
+}
+.lumi-process-flow {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  width: 100%;
+}
+.lumi-flow-step {
+  background: var(--surface);
+  border: 1px solid var(--surface-dim);
+  border-radius: 14px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.lumi-column {
+  display: flex !important;
+  flex-direction: column !important;
+}
+.lumi-row {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center;
+}
+.lumi-column > h1,
+.lumi-column > h2,
+.lumi-column > h3 {
+  margin-bottom: 12px !important;
+}
+.lumi-cluster {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-l, 16px);
+  align-items: center;
+}
+.lumi-stat-value {
+  font-family: var(--ff-sans);
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--on-surface);
+}
+.lumi-stat-label {
+  font-size: 0.8125rem;
+  color: var(--on-surface-variant);
+}
+.lumi-title {
+  font-family: var(--ff-sans);
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  color: var(--on-surface);
+  margin: 0;
+}
+.lumi-subtitle {
+  font-size: 1.125rem;
+  color: var(--on-surface-variant);
+  line-height: 1.5;
+}
+.lumi-kicker,
+.lumi-eyebrow {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--on-surface-variant);
+}
+.lumi-page,
+.lumi-viewer-content,
+.lumi-article,
+.lumi-doc,
+.page-container {
+  max-width: 720px;
+  margin-inline: auto;
+  padding: 56px 24px 96px;
+  box-sizing: border-box;
+}
+.lumi-prose > p,
+.lumi-prose > ul,
+.lumi-prose > ol,
+.lumi-prose > blockquote {
+  max-width: 68ch;
+}
+.lumi-page,
+.lumi-viewer-content,
+.lumi-article,
+.lumi-doc,
+.page-container {
+  padding: 32px 18px 64px;
+}
+
+/* Timeline — golden (hollow ring marker + SVG-dotted connector; item = [marker][content] row) */
+.lumi-timeline { display: flex; flex-direction: column; width: 100%; position: relative; }
+.lumi-timeline-item { display: flex; align-items: flex-start; gap: 16px; position: relative; padding-bottom: 16px; }
+.lumi-timeline-item:last-child { padding-bottom: 0; }
+.lumi-time-marker { width: 24px; height: var(--lumi-sys-typography-type-scale--body-l-line-height, 1.5rem); flex-shrink: 0; position: relative; display: flex; align-items: center; justify-content: center; }
+.lumi-time-marker::before { content: ''; width: 16px; height: 16px; border-radius: 50%; border: 1.3px solid var(--on-surface); background-color: transparent; z-index: 2; box-sizing: border-box; }
+.lumi-timeline-item:not(:last-child)::after { content: ''; position: absolute; top: 28px; bottom: 4px; left: 11px; width: 2px; background-color: var(--on-surface); -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='2' height='4'><circle cx='1' cy='2' r='0.65' fill='black'/></svg>"); -webkit-mask-repeat: repeat-y; -webkit-mask-size: 2px 4px; mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='2' height='4'><circle cx='1' cy='2' r='0.65' fill='black'/></svg>"); mask-repeat: repeat-y; mask-size: 2px 4px; z-index: 1; }
+.lumi-time-content { display: flex; flex-direction: column; gap: 4px; }
+/* Reset UA margins on widget content children so flex gap is the only vertical spacing (matches golden outside the previewer's .lumi-tab-content scope). */
+.lumi-time-content > *,
+.lumi-seq-content > * { margin: 0; }
+
+
+/* === AUTHORITATIVE MIRO DESIGN SI PREVIEWER BASE KIT === */
+/* 7.1 Sequence Widget (.lumi-sequence) */
+.lumi-sequence {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.lumi-seq-step {
+  display: flex;
+  gap: var(--lumi-sys-spacing--l, 16px);
+  position: relative;
+  padding-bottom: var(--lumi-sys-spacing--xxl, 24px);
+}
+.lumi-seq-step:last-child {
+  padding-bottom: 0;
+}
+.lumi-seq-num {
+  width: 20px;
+  height: 20px;
+  margin: 2px 2px 0 2px;
+  border-radius: 50%;
+  border: 1.3px solid var(--lumi-sys-color--on-surface-default, #000);
+  background-color: var(--lumi-sys-color--surface, #fff);
+  color: var(--lumi-sys-color--on-surface-default, #000);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  z-index: 2;
+}
+.lumi-seq-num span {
+  display: block;
+  width: 100%;
+  text-align: center;
+  font-family: var(--ff-sans, "Google Sans Flex", sans-serif);
+  font-size: 13px;
+  line-height: 1;
+  letter-spacing: 0;
+  font-weight: 400;
+  font-variation-settings: "wght" 400, "wdth" 92, "opsz" 13;
+}
+.lumi-seq-step:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 28px;
+  bottom: 0;
+  left: 11px;
+  width: 2px;
+  background-color: var(--lumi-sys-color--on-surface-default, #000);
+  -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='2' height='4'><circle cx='1' cy='2' r='0.65' fill='black'/></svg>");
+  -webkit-mask-repeat: repeat-y;
+  -webkit-mask-size: 2px 4px;
+  mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='2' height='4'><circle cx='1' cy='2' r='0.65' fill='black'/></svg>");
+  mask-repeat: repeat-y;
+  mask-size: 2px 4px;
+  z-index: 1;
+}
+.lumi-seq-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
+}
+.lumi-seq-content .lumi-body-l-emphasized {
+  margin: 0;
+}
+.lumi-seq-content .lumi-caption {
+  font-family: var(--ff-sans, "Google Sans Flex", sans-serif) !important;
+  font-style: normal !important;
+  font-size: 13px;
+  font-weight: 400;
+  font-variation-settings: "wght" 400, "opsz" 13;
+  line-height: 20px;
+  color: var(--lumi-sys-color--on-surface-de-emphasis, rgba(0, 0, 0, 0.55));
+  margin: 0;
+}
+.lumi-seq-content .lumi-body-l {
+  margin: 4px 0 0 0;
+  color: var(--lumi-sys-color--on-surface-default, #000);
+}
+
+/* 7.2 Timeline Widget (.lumi-timeline) */
+.lumi-timeline {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  position: relative;
+}
+
+.lumi-timeline-item {
+  display: flex;
+  gap: var(--lumi-sys-spacing--l, 16px);
+  position: relative;
+  padding-bottom: var(--lumi-sys-spacing--xxl, 24px);
+}
+
+.lumi-timeline-item:last-child {
+  padding-bottom: 0;
+}
+
+.lumi-time-marker {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 4px;
+  box-sizing: border-box;
+}
+
+.lumi-time-marker::before {
+  content: '';
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1.3px solid var(--lumi-sys-color--on-surface-default, #000);
+  background-color: var(--lumi-sys-color--surface, #fff);
+  z-index: 2;
+  box-sizing: border-box;
+}
+
+.lumi-timeline-item:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 24px;
+  bottom: 4px;
+  left: 11px;
+  width: 2px;
+  background-color: var(--lumi-sys-color--on-surface-default, #000);
+  -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='2' height='4'><circle cx='1' cy='2' r='0.65' fill='black'/></svg>");
+  -webkit-mask-repeat: repeat-y;
+  -webkit-mask-size: 2px 4px;
+  mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='2' height='4'><circle cx='1' cy='2' r='0.65' fill='black'/></svg>");
+  mask-repeat: repeat-y;
+  mask-size: 2px 4px;
+  z-index: 1;
+}
+
+.lumi-time-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
+}
+
+.lumi-time-content .lumi-body-l-emphasized {
+  margin: 0;
+}
+
+.lumi-time-content .lumi-caption {
+  font-family: var(--ff-sans, "Google Sans Flex", sans-serif) !important;
+  font-style: normal !important;
+  font-size: 13px;
+  font-weight: 400;
+  font-variation-settings: "wght" 400, "opsz" 13;
+  line-height: 20px;
+  color: var(--lumi-sys-color--on-surface-de-emphasis, rgba(0, 0, 0, 0.55));
+  margin: 0;
+}
+
+.lumi-time-content .lumi-body-l {
+  margin: 4px 0 0 0;
+  color: var(--lumi-sys-color--on-surface-default, #000);
+}
+
+/* 7.3 Callout / Key Takeaway (.lumi-callout) */
+.lumi-callout {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lumi-sys-spacing--xs, 4px);
+  width: 100%;
+}
+
+.lumi-callout .lumi-body-l-emphasized {
+  margin: 0;
+}
+
+.lumi-takeaway {
+  font-family: var(--ff-sans, "Google Sans Flex", sans-serif) !important;
+  font-style: normal !important;
+  font-size: 17px;
+  font-weight: 400;
+  font-variation-settings: "wght" 400, "opsz" 17;
+  line-height: 24px;
+  color: var(--lumi-sys-color--on-surface-default, #000);
+  margin: 0;
+}
+
+/* 7.4 Pull Quote Widget (.lumi-pullquote) */
+.lumi-pullquote {
+  display: flex;
+  gap: var(--lumi-sys-spacing--xl, 20px);
+  width: 100%;
+  margin: 0;
+}
+.lumi-pullquote-mark {
+  width: 30px;
+  height: 22px;
+  flex-shrink: 0;
+  margin-top: 4px;
+  color: var(--lumi-sys-color--on-surface-default, #000);
+}
+.lumi-pullquote-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lumi-sys-spacing--l, 16px);
+  flex: 1;
+  min-width: 0;
+}
+p.lumi-pullquote-text,
+.lumi-pullquote-text {
+  font-family: var(--ff-mono, "Google Sans Code", monospace);
+  font-style: italic;
+  font-size: 22px !important;
+  font-weight: 300;
+  font-variation-settings: "wght" 300, "opsz" 22, "MONO" 0;
+  line-height: 30px !important;
+  color: var(--lumi-sys-color--on-surface-default, #000);
+  margin: 0;
+}
+.lumi-pullquote-cite {
+  display: flex;
+  flex-direction: column;
+  font-style: normal;
+}
+.lumi-pullquote-cite .lumi-de-emphasis {
+  color: var(--lumi-sys-color--on-surface-de-emphasis, rgba(0, 0, 0, 0.55));
+}
+
+/* 7.5 Pros and Cons Widget (.lumi-pros-cons) */
+.lumi-pros-cons {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lumi-sys-spacing--4xl, 36px);
+  width: 100%;
+}
+
+@media (min-width: 600px) {
+  .lumi-pros-cons {
+    flex-direction: row;
+    gap: var(--lumi-sys-spacing--4xl, 36px);
+  }
+}
+
+.lumi-pc-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--lumi-sys-spacing--m, 12px);
+  min-width: 0;
+}
+
+.lumi-pc-column .lumi-body-l-emphasized {
+  margin: 0;
+}
+
+.lumi-pc-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lumi-sys-spacing--m, 12px);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.lumi-pc-list li {
+  display: flex;
+  gap: var(--lumi-sys-spacing--m, 12px);
+  align-items: flex-start;
+}
+
+.lumi-pc-list .lumi-icon,
+.lumi-pc-list .material-icon {
+  font-size: 18px;
+  line-height: 24px;
+  flex-shrink: 0;
+  color: var(--lumi-sys-color--on-surface-default, #000);
+}
+
+.lumi-pc-list .lumi-body-l {
+  margin: 0;
+  color: var(--lumi-sys-color--on-surface-default, #000);
+}
+
+/* 7.6 Accordion Widget (.lumi-accordion) */
+.lumi-accordion {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border-top: 1px solid var(--lumi-sys-color--on-surface-low, rgba(0, 0, 0, 0.08));
+}
+
+.lumi-accordion-item {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background: transparent;
+  border-radius: 0;
+  border-bottom: 1px solid var(--lumi-sys-color--on-surface-low, rgba(0, 0, 0, 0.08));
+}
+
+.lumi-accordion-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--lumi-sys-spacing--xl, 20px) 0;
+  cursor: pointer;
+  user-select: none;
+}
+
+.lumi-accordion-title {
+  margin: 0;
+  color: var(--lumi-sys-color--on-surface-default, #000);
+}
+
+.lumi-accordion-icon {
+  font-size: 20px;
+  line-height: 1;
+  color: var(--lumi-sys-color--on-surface-default, #000);
+  transition: transform 0.2s ease;
+}
+
+.lumi-accordion-item.active .lumi-accordion-icon {
+  transform: rotate(180deg);
+}
+
+.lumi-accordion-content {
+  display: none;
+  padding-bottom: var(--lumi-sys-spacing--xxl, 24px);
+}
+
+.lumi-accordion-item.active .lumi-accordion-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lumi-sys-spacing--l, 16px);
+}
+
+.lumi-accordion-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lumi-sys-spacing--xxs, 2px);
+}
+
+.lumi-accordion-field-label {
+  margin: 0;
+  color: var(--lumi-sys-color--on-surface-default, #000);
+}
+
+.lumi-accordion-field-val {
+  margin: 0;
+  color: var(--lumi-sys-color--on-surface-default, #000);
+}
+
+/* 7.8 Tab Group Widget (.lumi-tab-group) */
+.lumi-tab-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lumi-sys-spacing--4xl, 36px);
+  width: 100%;
+}
+
+.lumi-tab-bar {
+  display: flex;
+  gap: var(--lumi-sys-spacing--l, 16px);
+  padding-bottom: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.lumi-tab-bar::-webkit-scrollbar {
+  display: none;
+}
+
+.lumi-tab {
+  height: 40px;
+  padding: 0 var(--lumi-sys-spacing--xl, 20px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--ff-sans, "Google Sans Flex", sans-serif);
+  font-size: 17px;
+  line-height: 24px;
+  font-weight: 370;
+  font-variation-settings: "wght" 370, "wdth" 92, "opsz" 17;
+  color: var(--lumi-sys-color--on-surface-de-emphasis, rgba(0, 0, 0, 0.55));
+  background: transparent;
+  border: none;
+  border-radius: var(--lumi-sys-shape--corner-full, 999px);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.lumi-tab:hover {
+  color: var(--lumi-sys-color--on-surface-default, #000);
+}
+
+.lumi-tab.active {
+  background-color: var(--lumi-sys-color--surface-container-high, #f2f0f0);
+  color: var(--lumi-sys-color--on-surface-default, #000);
+  font-weight: 510;
+  font-variation-settings: "wght" 510, "wdth" 92, "opsz" 17;
+}
+
+.lumi-tab-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lumi-sys-spacing--m, 12px);
+  padding-top: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.lumi-tab-content .lumi-body-l-emphasized,
+.lumi-tab-content .lumi-headline-s {
+  margin: 0;
+}
+
+.lumi-tab-content .lumi-body-l {
+  margin: 0;
+  color: var(--lumi-sys-color--on-surface-default, #000);
+}
+
+/* 7.9 Standard Table Layout (.lumi-table, .lumi-table-widget) */
+.lumi-table-widget { display: flex; flex-direction: column; gap: var(--lumi-sys-spacing--xxl, 24px); width: 100%; max-width: 100%; overflow-x: visible; }
+.lumi-table-title { margin: 0; color: var(--lumi-sys-color--on-surface-default, #000); }
+.lumi-table { width: 100%; max-width: 100%; table-layout: auto; border-collapse: collapse; font-family: var(--ff-sans, 'Google Sans Flex', sans-serif); text-align: left; }
+.lumi-table th { padding: 10px 14px 10px 0; font-family: var(--ff-sans, 'Google Sans Flex', sans-serif); font-style: normal !important; font-size: 13px; line-height: 18px; font-weight: 600; color: var(--lumi-sys-color--on-surface-variant, rgba(0, 0, 0, 0.6)); border-bottom: 1px solid var(--lumi-sys-color--on-surface-low, rgba(0, 0, 0, 0.08)); }
+.lumi-table td { padding: 14px 14px 14px 0; font-size: 14px; line-height: 20px; font-weight: 400; color: var(--lumi-sys-color--on-surface-default, #000); border-bottom: 1px solid var(--lumi-sys-color--on-surface-low, rgba(0, 0, 0, 0.08)); }
+.lumi-table td:last-child,
+.lumi-table th:last-child { padding-right: 0; }
+
+.lumi-table tr.lumi-table-ellipsis-row td {
+  padding: 16px 0 0 0;
+  border-bottom: none;
+  color: var(--lumi-sys-color--on-surface-variant, rgba(0, 0, 0, 0.55));
+}
+
+/* 7.10 Code Block Widget (.lumi-code-block) */
+.lumi-code-block {
+  background-color: var(--lumi-sys-color--code-background, #1e1e1e);
+  border-radius: var(--lumi-sys-shape--corner-extra-large-max, 40px);
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--lumi-sys-spacing--l, 16px);
+  width: 100%;
+  box-sizing: border-box;
+}
+.lumi-code-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+.lumi-code-lang {
+  font-family: var(--ff-sans, "Google Sans Flex", sans-serif);
+  font-size: 15px;
+  font-weight: 500;
+  font-variation-settings: "wght" 540, "wdth" 92, "opsz" 15;
+  color: var(--lumi-sys-color--code-primary-text, #fff);
+}
+.lumi-code-copy {
+  background: transparent;
+  border: none;
+  color: var(--lumi-sys-color--code-primary-text, #fff);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: var(--lumi-sys-shape--corner-full, 999px);
+  transition: background-color 0.2s;
+}
+.lumi-code-copy:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+.lumi-code-copy .lumi-icon {
+  color: var(--lumi-sys-color--code-primary-text, #fff);
+  font-size: 18px;
+}
+.lumi-code-snippet {
+  margin: 0;
+  overflow-x: auto;
+  width: 100%;
+}
+.lumi-code-snippet code {
+  font-family: var(--ff-mono, "Google Sans Code", monospace);
+  font-size: 15px;
+  line-height: 20px;
+  color: var(--lumi-sys-color--code-primary-text, #fff);
+  display: block;
+  white-space: pre;
+}
+
+/* 7.10 Reusable Simple Card (.lumi-card) */
+.lumi-card {
+  background-color: var(--lumi-sys-color--surface-dim, #f2f0f0);
+  border-radius: var(--lumi-sys-shape--corner-extra-large-max, 40px);
+  padding: var(--lumi-sys-spacing--xxxl, 28px);
+  display: flex;
+  flex-direction: column;
+  gap: var(--lumi-sys-spacing--s, 8px);
+  width: 100%;
+  box-sizing: border-box;
+}
+.lumi-card-title {
+  font-family: var(--ff-sans, "Google Sans Flex", sans-serif);
+  font-size: 20px;
+  font-weight: 500;
+  font-variation-settings: "wght" 470, "wdth" 94, "opsz" 20;
+  color: var(--lumi-sys-color--on-surface, #1d1b20);
+  margin: 0;
+}
+.lumi-card-subtitle {
+  font-family: var(--ff-sans, "Google Sans Flex", sans-serif);
+  font-size: 13px;
+  font-weight: 400;
+  font-variation-settings: "wght" 400, "wdth" 92, "opsz" 13;
+  color: var(--lumi-sys-color--on-surface-variant, #49454f);
+  margin: 0;
+}
+.lumi-card-body {
+  font-family: var(--ff-sans, "Google Sans Flex", sans-serif);
+  font-size: 15px;
+  font-weight: 400;
+  font-variation-settings: "wght" 400, "wdth" 92, "opsz" 15;
+  color: var(--lumi-sys-color--on-surface, #1d1b20);
+  margin: var(--lumi-sys-spacing--xs, 4px) 0 0 0;
+}
+
+/* 7.11 Hero Image Widget (.lumi-hero-image) */
+.lumi-hero-image {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lumi-sys-spacing--s, 8px);
+  width: 100%;
+  max-width: 580px;
+  margin: 0 auto;
+}
+.lumi-hi-frame {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--lumi-sys-shape--corner-extra-large-max, 40px);
+  overflow: hidden;
+  background-color: var(--lumi-sys-color--surface-dim, #f2f0f0);
+}
+.lumi-hi-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.lumi-hi-caption {
+  font-family: var(--ff-mono, "Google Sans Code", monospace);
+  font-style: italic;
+  font-size: 13px;
+  font-weight: 400;
+  font-variation-settings: "MONO" 0, "wght" 400, "opsz" 13;
+  line-height: 20px;
+  color: var(--lumi-sys-color--on-surface, #1d1b20);
+  padding-left: var(--lumi-sys-spacing--l, 16px);
+  margin: 0;
+}
+
+/* 7.12 Dashboard HUD / Metric Strip (.lumi-dashboard-hud) */
+.lumi-dashboard-hud {
+  display: flex;
+  width: 100%;
+  border-top: 1px solid var(--lumi-sys-color--stroke-default, rgba(0, 0, 0, 0.12));
+  border-bottom: 1px solid var(--lumi-sys-color--stroke-default, rgba(0, 0, 0, 0.12));
+  padding: var(--lumi-sys-spacing--l, 16px) 0;
+  margin: var(--lumi-sys-spacing--xl, 20px) 0;
+}
+.hud-pill {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--lumi-sys-spacing--xs, 4px);
+}
+.hud-label {
+  font-family: var(--ff-sans, "Google Sans Flex", sans-serif);
+  font-size: 13px;
+  font-weight: 540;
+  font-variation-settings: "wght" 540, "wdth" 92, "opsz" 13;
+  color: var(--lumi-sys-color--on-surface-variant, #49454f);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.hud-value {
+  font-family: var(--ff-sans, "Google Sans Flex", sans-serif);
+  font-size: 36px;
+  font-weight: 320;
+  font-variation-settings: "wght" 320, "wdth" 100, "opsz" 36;
+  line-height: 44px;
+  color: var(--lumi-sys-color--on-surface, #1d1b20);
+  font-variant-numeric: tabular-nums;
+}
+
+/* 7.14 Progress Widget (.lumi-progress) */
+.lumi-progress {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  position: relative;
+  margin: var(--lumi-sys-spacing--xl, 20px) 0;
+  box-sizing: border-box;
+}
+.lumi-progress-step {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+  box-sizing: border-box;
+}
+.lumi-progress-marker {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  box-sizing: border-box;
+  z-index: 3;
+}
+.lumi-progress-step:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 9px;
+  left: 50%;
+  width: 100%;
+  height: 2px;
+  background-color: var(--lumi-sys-color--stroke-default, rgba(0, 0, 0, 0.12));
+  z-index: 1;
+}
+.lumi-progress-step.completed .lumi-progress-marker {
+  background-color: var(--lumi-sys-color--on-surface, #1d1b20);
+  border: 2px solid var(--lumi-sys-color--on-surface, #1d1b20);
+}
+.lumi-progress-step.completed::after {
+  background-color: var(--lumi-sys-color--on-surface, #1d1b20);
+}
+.lumi-progress-step.completed .lumi-progress-label {
+  color: var(--lumi-sys-color--on-surface, #1d1b20);
+}
+.lumi-progress-step.active .lumi-progress-marker {
+  background-color: var(--lumi-sys-color--surface, #fff);
+  border: 2px solid var(--lumi-sys-color--on-surface, #1d1b20);
+}
+.lumi-progress-step.active .lumi-progress-label {
+  color: var(--lumi-sys-color--on-surface, #1d1b20);
+}
+.lumi-progress-step.pending .lumi-progress-marker {
+  background-color: var(--lumi-sys-color--surface, #fff);
+  border: 2px solid var(--lumi-sys-color--stroke-default, rgba(0, 0, 0, 0.12));
+}
+.lumi-progress-step.pending .lumi-progress-label {
+  color: var(--lumi-sys-color--on-surface-variant, #49454f);
+}
+.lumi-progress-label {
+  margin-top: var(--lumi-sys-spacing--s, 8px);
+  font-family: var(--ff-mono, "Google Sans Code", monospace);
+  font-size: 13px;
+  font-style: italic;
+  font-weight: 400;
+  font-variation-settings: "MONO" 0, "wght" 400, "opsz" 13;
+  line-height: 20px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* 7.15 TLDR Widget (.lumi-tldr) */
+.lumi-tldr {
+  font-family: var(--ff-sans, "Google Sans Flex", sans-serif);
+  font-size: 24px;
+  font-weight: 400;
+  font-variation-settings: "wght" 380, "wdth" 100, "opsz" 24;
+  line-height: 28px;
+  color: var(--lumi-sys-color--on-surface, #1d1b20);
+  margin-top: 0;
+  margin-bottom: 0;
+  width: 100%;
+}
+
+/* 7.16 Section Widget (.lumi-section) */
+.lumi-section {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+}
+.lumi-section h1 {
+  font-family: var(--ff-sans, "Google Sans Flex", sans-serif);
+  font-size: 28px;
+  line-height: 36px;
+  font-weight: 350;
+  font-variation-settings: "wght" 350, "wdth" 100, "opsz" 28;
+  color: var(--lumi-sys-color--on-surface, #1d1b20);
+  margin-top: var(--lumi-sys-spacing--m, 12px);
+  margin-bottom: var(--lumi-sys-spacing--xxl, 24px);
+}
+.lumi-section h1:first-child {
+  margin-top: 0;
+}
+.lumi-section h2 {
+  font-family: var(--ff-sans, "Google Sans Flex", sans-serif);
+  font-size: 24px;
+  line-height: 28px;
+  font-weight: 380;
+  font-variation-settings: "wght" 380, "wdth" 100, "opsz" 24;
+  color: var(--lumi-sys-color--on-surface, #1d1b20);
+  margin-top: var(--lumi-sys-spacing--m, 12px);
+  margin-bottom: var(--lumi-sys-spacing--m, 12px);
+}
+.lumi-section h2:first-child {
+  margin-top: 0;
+}
+.lumi-section h3 {
+  font-family: var(--ff-sans, "Google Sans Flex", sans-serif);
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: 470;
+  font-variation-settings: "wght" 470, "wdth" 94, "opsz" 20;
+  color: var(--lumi-sys-color--on-surface, #1d1b20);
+  margin-top: var(--lumi-sys-spacing--m, 12px);
+  margin-bottom: var(--lumi-sys-spacing--xs, 4px);
+}
+.lumi-section h3:first-child {
+  margin-top: 0;
+}
+.lumi-section p {
+  font-family: var(--ff-sans, "Google Sans Flex", sans-serif);
+  font-size: 17px;
+  line-height: 24px;
+  font-weight: 400;
+  font-variation-settings: "wght" 400, "wdth" 92, "opsz" 17;
+  color: var(--lumi-sys-color--on-surface, #1d1b20);
+  margin-top: 0;
+  margin-bottom: var(--lumi-sys-spacing--m, 12px);
+}
+.lumi-section p:last-child {
+  margin-bottom: 0;
+}
+.lumi-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 var(--lumi-sys-spacing--m, 12px) 0;
+  width: 100%;
+}
+.lumi-section ul:last-child {
+  margin-bottom: 0;
+}
+.lumi-section ul:not([class]) > li:not([class]) {
+  position: relative;
+  padding-left: 40px;
+  padding-bottom: 12px;
+  font-family: var(--ff-sans, "Google Sans Flex", sans-serif);
+  font-size: 17px;
+  line-height: 24px;
+  font-weight: 400;
+  font-variation-settings: "wght" 400, "wdth" 92, "opsz" 17;
+  color: var(--lumi-sys-color--on-surface, #1d1b20);
+  box-sizing: border-box;
+}
+.lumi-section ul:not([class]) > li:not([class]):last-child {
+  padding-bottom: 0;
+}
+.lumi-section ul:not([class]) > li:not([class])::before {
+  content: '○';
+  position: absolute;
+  left: 3.5px;
+  top: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--ff-mono, "Google Sans Code", monospace);
+  font-size: 15px;
+  font-weight: 650;
+  font-variation-settings: "MONO" 1, "wght" 650;
+  color: var(--lumi-sys-color--on-surface, #1d1b20);
+}
+.lumi-section ul:not([class]) > li:not([class]) ul {
+  margin-top: 12px;
+  margin-bottom: 0;
+  padding-left: 40px;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 8. Data Visualization Common Legend (Figma Node 1807:358 Spec)             */
+/* -------------------------------------------------------------------------- */
+.lumi-chart-header,
+.lumi-chart-title {
+  margin-bottom: 32px;
+}
+
+.lumi-chart-legend {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  margin-top: 32px;
+  padding-top: 0;
+  width: 100%;
+}
+
+
+.lumi-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.lumi-legend-dot {
+  width: 20px;
+  height: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.lumi-legend-dot-swatch {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: block;
+}
+
+span.lumi-legend-dot[style*="background"] {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: inline-block;
+}
+
+
+
+
+.lumi-legend-label {
+  font-family: var(--ff-mono, "Google Sans Code", monospace);
+  font-style: italic;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 20px;
+  color: var(--lumi-sys-color--on-surface, #1d1b20);
+  font-variation-settings: "MONO" 0;
+  white-space: nowrap;
+}
+
+
+
+
+
+/* ==========================================================================
+   Unified Full-Screen Artifact & Control Geometry Overrides
+   ========================================================================== */
+main.page-container {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 32px;
+  box-sizing: border-box;
+}
+
+.lumi-time-content,
+.lumi-seq-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.lumi-data-table-container,
+.lumi-table-widget {
+  width: 100%;
+  overflow-x: auto;
+  border: none !important;
+  background: transparent !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+}
+
+/* Standardized 48px Control Heights & Flexible Single-Line Segmented Buttons */
+.lumi-segmented-group {
+  display: inline-flex !important;
+  flex-wrap: nowrap !important;
+  overflow-x: auto;
+  scrollbar-width: none;
+  width: fit-content !important;
+  max-width: 100%;
+  min-height: 48px;
+  align-items: center;
+  box-sizing: border-box;
+}
+.lumi-segmented-btn {
+  flex: 0 0 auto !important;
+  min-height: 40px;
+  padding: 0 20px !important;
+  white-space: nowrap !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.lumi-slider-container {
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+}
+select.lumi-select {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  width: 100%;
+  min-height: 48px;
+  height: 48px;
+  padding: 0 44px 0 20px;
+  border: none;
+  border-radius: var(--r-full, 999px);
+  background-color: var(--lumi-sys-color--surface-dim, #f2f0f0);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%231d1b20' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  background-size: 18px 18px;
+  color: var(--lumi-sys-color--on-surface, #1d1b20);
+  font-family: var(--ff-sans, "Google Sans Flex", sans-serif);
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 20px;
+  cursor: pointer;
+  box-sizing: border-box;
+  transition: background-color 0.15s ease;
+}
+select.lumi-select:hover {
+  background-color: var(--lumi-sys-color--surface-container-high, #e6e6e6);
+}
+select.lumi-select:focus-visible {
+  outline: 2px solid var(--lumi-sys-color--on-surface, #000);
+  outline-offset: 2px;
+}
+
+.lumi-icon,
+.material-icon,
+.material-symbols-outlined {
+  display: none !important;
+}
+
+
+.lumi-table th {
+  vertical-align: bottom;
+  overflow-wrap: break-word;
+  padding-right: 20px !important;
+}
+.lumi-table td {
+  vertical-align: top;
+  overflow-wrap: break-word;
+  padding-right: 20px !important;
+}
+.lumi-table th:last-child,
+.lumi-table td:last-child {
+  padding-right: 0 !important;
+}
+
+
+.lumi-hud-strip,
+.lumi-dashboard-hud {
+  display: flex !important;
+  flex-wrap: wrap;
+  width: 100%;
+  border-top: 1px solid var(--lumi-sys-color--stroke-default, rgba(0, 0, 0, 0.12)) !important;
+  border-bottom: 1px solid var(--lumi-sys-color--stroke-default, rgba(0, 0, 0, 0.12)) !important;
+  padding: 16px 0 !important;
+  margin: 20px 0 !important;
+  background: transparent !important;
+  gap: 16px 24px;
+}
+.lumi-hud-pill,
+.hud-pill {
+  flex: 1 1 160px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+}
+.hud-value {
+  font-size: clamp(20px, 2.2vw, 26px) !important;
+  line-height: 1.25 !important;
+}
+
+/* Open-Canvas Layout Guardrails: ban colored-border / left-stripe notice boxes */
+blockquote,
+.lumi-callout,
+[class*="notice"],
+[class*="callout"],
+[class*="alert"]:not(button):not(.lumi-chip):not(.lumi-badge),
+[class*="warning"]:not(button):not(.lumi-chip):not(.lumi-badge),
+[class*="banner"],
+[class*="verdict"],
+[class*="advisory"]:not(.advisory-container):not(.advisory-header) {
+  background: transparent !important;
+  background-color: transparent !important;
+  border-left: none !important;
+  border-right: none !important;
+  border-bottom: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.chip-scroll-wrapper,
+.lumi-chip-group {
+  flex-wrap: wrap !important;
+}
+
+hr,
+.divider,
+.lumi-divider,
+.section-divider {
+  margin-top: 24px !important;
+  margin-bottom: 24px !important;
+  height: 1px !important;
+  border: none !important;
+  border-top: 1px solid var(--on-surface-low, rgba(0, 0, 0, 0.08)) !important;
+}
+
+body > div,
+main {
+  width: 100% !important;
+  max-width: 852px !important;
+  min-height: auto !important;
+  align-self: flex-start !important;
+  box-sizing: border-box !important;
+}
+
+/* Segmented Control Anti-Clip & Anti-Wrap Invariants */
+.lumi-segmented-group {
+  display: inline-flex !important;
+  flex-wrap: nowrap !important;
+  align-items: center !important;
+  max-width: 100% !important;
+  width: auto !important;
+  background-color: var(--lumi-sys-color--surface-container, #f2f0f0) !important;
+  padding: 4px !important;
+  border-radius: 20px !important;
+  gap: 4px !important;
+  box-sizing: border-box !important;
+}
+.lumi-segmented-btn {
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  padding: 6px 12px !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  font-size: 13px !important;
+  line-height: 18px !important;
+}
+.lumi-filter-bar {
+  box-sizing: border-box !important;
+  max-width: 100% !important;
+  flex-wrap: wrap !important;
+}
+
+/* Protect Canonical Timeline & Sequence Geometry Against Custom CSS Overrides */
+.lumi-timeline,
+.lumi-sequence {
+  padding-left: 0 !important;
+}
+.lumi-timeline::before,
+.lumi-sequence::before,
+.lumi-timeline-item::before,
+.lumi-seq-step::before,
+.lumi-timeline-item::after,
+.lumi-seq-step::after {
+  display: none !important;
+  content: none !important;
+}
+section > *,
+.lumi-grid > *,
+main > * {
+  min-width: 0 !important;
+}
+.lumi-timeline-item,
+.lumi-seq-step {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: flex-start !important;
+  gap: 16px !important;
+  position: relative !important;
+}
+.lumi-time-marker {
+  position: relative !important;
+  left: auto !important;
+  top: auto !important;
+  width: 24px !important;
+  height: 24px !important;
+  border: none !important;
+  background: transparent !important;
+  flex-shrink: 0 !important;
+}
+/* Never render double markers (○ circle + ☐ checkbox) on the same row */
+.lumi-timeline-item:has(.lumi-checkbox, input[type="checkbox"], input[type="radio"]) .lumi-time-marker,
+.lumi-seq-step:has(.lumi-checkbox, input[type="checkbox"], input[type="radio"]) .lumi-seq-num {
+  display: none !important;
+}
+/* Enforce tabular fixed column width for leading timestamps/labels in timeline & sequence rows */
+.lumi-timeline-item > :first-child:not(.lumi-time-marker):not(.lumi-time-content):not(.lumi-checkbox):not(.lumi-checkbox-label):not(input):not(:has(input, .lumi-checkbox)),
+.lumi-time-stamp {
+  min-width: 72px !important;
+  font-variant-numeric: tabular-nums !important;
+  flex-shrink: 0 !important;
+}
+/* Prevent flex key-value list rows inside Luminous containers from colliding when text wraps or scales */
+.lumi-card li,
+.lumi-section li,
+.lumi-list li {
+  column-gap: 12px;
+}
+
+/* Standard Table Layout: 100% transparent rows/cells on open --surface canvas */
+.lumi-table,
+.lumi-table thead,
+.lumi-table tbody,
+.lumi-table tr,
+.lumi-table th,
+.lumi-table td {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+.lumi-table th {
+  font-family: var(--ff-sans, "Google Sans Flex", sans-serif) !important;
+  font-style: normal !important;
+  font-size: 13px !important;
+  line-height: 18px !important;
+  font-weight: 600 !important;
+  padding: 10px 8px !important;
+}
+.lumi-table td {
+  font-size: 14px !important;
+  line-height: 20px !important;
+  padding: 10px 8px !important;
+}
+
+/* ==========================================================================
+   UNIVERSAL LUMINOUS INVARIANTS (Applies regardless of model-invented classes)
+   ========================================================================== */
+
+/* 1. Universal Typography Invariant:
+      Outside explicit <code>, <pre>, and .lumi-code, NO element may render in
+      monospace typewriter font or italic style. */
+body *:not(code):not(pre):not(.lumi-code):not(code *):not(pre *):not(.lumi-code *) {
+  font-family: var(--ff-sans, "Google Sans Flex", "Google Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif) !important;
+  font-style: normal !important;
+}
+
+/* 2. Universal Pill / Badge / Chip / Tag Single-Line Invariant:
+      Leaf badges/chips/pills are single-line 999px pills, whereas multi-child container
+      divs (cards, metric blocks, or chip-group wrappers) use 12px card radius. */
+.lumi-chip,
+.lumi-badge,
+.lumi-pill,
+.lumi-tag,
+:is(span, button, a):is([class*="badge"], [class*="chip"], [class*="pill"], [class*="tag"]),
+div:is([class*="badge"], [class*="chip"], [class*="pill"], .lumi-tag, .badge-tag):not(:has(> div, > p, > math, > br, > button, > a, > span + span, > strong + span, > label)) {
+  font-family: var(--ff-sans, "Google Sans Flex", sans-serif) !important;
+  font-style: normal !important;
+  white-space: nowrap !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  line-height: 1.25 !important;
+  padding: 4px 12px !important;
+  border-radius: 999px !important;
+  border-color: var(--stroke-default, rgba(0, 0, 0, 0.12)) !important;
+  box-sizing: border-box !important;
+}
+div:is([class*="badge"], [class*="chip"], [class*="pill"]):has(> div, > p, > math, > br, > button, > a, > span + span, > strong + span, > label) {
+  border-radius: var(--r-m, 12px) !important;
+  border-color: var(--stroke-default, rgba(0, 0, 0, 0.12)) !important;
+}
+td:has([class*="badge"], [class*="chip"], [class*="pill"], .lumi-chip, .lumi-badge) {
+  white-space: nowrap !important;
+}
+
+/* 3. Universal Neutral Container Border & Complete Step Circle Guarantee:
+      Force neutral --stroke-default border color on all containers (never colored blue/red box borders),
+      strip 1-sided left stripes on callout/formula/quote/box blocks, normalize card borders to 1px,
+      and preserve 360-degree 1.3px circle borders on .lumi-seq-num / .lumi-progress-marker. */
+div:not(.lumi-seq-num):not(.lumi-progress-marker):not(.lumi-time-marker):not(.lumi-switch__track):not(.lumi-switch__thumb):not(.lumi-checkbox):not([class*="seq-num"]):not([class*="step-num"]),
+section,
+article,
+aside {
+  border-color: var(--stroke-default, rgba(0, 0, 0, 0.12)) !important;
+}
+blockquote,
+[style*="border-left"]:not([style*="border:"]) {
+  border-left-width: 0 !important;
+}
+/* fix2: dropped the class-substring entries of the CL's left-stripe list ([class*="callout"], [class*="formula"], [class*="note-"],
+   [class*="alert-"], [class*="tip-"], [class*="-box"]) — on the 82 pages they hit 0 real left-only stripes and ate the left side of
+   7 four-side boxes (b00 .tip-card ×3, b17 .chart-box, b28 .math-formula-box ×2, n17 .parking-lot-box). */
+/* fix2: removed cl/985512882 rule `[class*="card"]:not(.lumi-card-borderless) { border:1px solid !important }` (substring match hits .day-card-header, span.hud-card-label, .meal-cards-stack …) */
+button[class*="tab"],
+[role="tab"]:not(.lumi-segmented-btn) {
+  border: none !important;
+  border-radius: 999px !important;
+  padding: 8px 18px !important;
+  background-color: var(--surface-dim, #f2f0f0) !important;
+  color: var(--on-surface-variant, rgba(0, 0, 0, 0.65)) !important;
+  font-weight: 500 !important;
+}
+button[class*="tab"]:is(.is-active, .active, [aria-selected="true"]),
+[role="tab"]:not(.lumi-segmented-btn):is(.is-active, .active, [aria-selected="true"]) {
+  background-color: var(--surface-bright, #ffffff) !important;
+  color: var(--on-surface, #000000) !important;
+  box-shadow: var(--elevation-1, 0 1px 3px rgba(0, 0, 0, 0.08)) !important;
+}
+.lumi-seq-num {
+  border: 1.3px solid var(--lumi-sys-color--on-surface, #000000) !important;
+  border-radius: 50% !important;
+}
+/* Universal Horizontal Control Toolbar Bottom Alignment:
+   Strictly match single-row horizontal control bars (never vertical section/card stacks
+   containing headings, prose, tables, canvases, SVGs, dividers, or nested non-slider div > div grids)
+   that place a labeled .lumi-slider-row / .lumi-input-group alongside buttons or segmented toggles. */
+div:not(:has(> h1, > h2, > h3, > h4, > p, > hr, > table, > canvas, > svg, > ul, > ol, > div:not(.lumi-slider-row):not(.lumi-input-group) > div)):has(> .lumi-slider-row, > .lumi-input-group):has(> button, > .lumi-btn, > .lumi-segmented-group, > div > button, > div > .lumi-btn) {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: wrap !important;
+  align-items: flex-end !important;
+  gap: 16px !important;
+}
+div:not(:has(> h1, > h2, > h3, > h4, > p, > hr, > table, > canvas, > svg, > ul, > ol, > div:not(.lumi-slider-row):not(.lumi-input-group) > div)):has(> .lumi-slider-row, > .lumi-input-group):has(> button, > .lumi-btn, > .lumi-segmented-group, > div > button, > div > .lumi-btn) > .lumi-slider-row {
+  flex: 1 1 240px !important;
+}
+/* Universal Eyebrow + Heading Vertical Stack:
+   Whenever a heading wrapper combines a leading eyebrow/index <span> with an <h1>/<h2>/<h3>/<h4>,
+   stack the 11px uppercase eyebrow cleanly above the heading so they never collide inline. */
+:is(div, header):has(> :is(h1, h2, h3, h4)):has(> span:first-child):not(:has(> p, > div, > ul, > ol, > table)) {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  gap: 4px !important;
+  margin-bottom: 12px !important;
+}
+:is(div, header):has(> :is(h1, h2, h3, h4)):has(> span:first-child):not(:has(> p, > div, > ul, > ol, > table)) > span:first-child {
+  font-size: 11px !important;
+  line-height: 16px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  color: var(--on-surface-variant, rgba(0, 0, 0, 0.55)) !important;
+  background: transparent !important;
+  padding: 0 !important;
+  border: none !important;
+}
+:is(div, header):has(> :is(h1, h2, h3, h4)):has(> span:first-child):not(:has(> p, > div, > ul, > ol, > table)) > :is(h1, h2, h3, h4) {
+  margin: 0 !important;
+}
+
+/* Universal HUD Metric Row Baseline Lock & Superscript Line-Height Invariant */
+sup, sub {
+  line-height: 0 !important;
+}
+.lumi-hud-strip,
+.lumi-dashboard-hud {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  align-items: stretch !important;
+  gap: 16px 24px !important;
+}
+.lumi-hud-pill,
+.hud-pill,
+.lumi-dashboard-hud > div,
+.lumi-hud-strip > div {
+  flex: 1 1 150px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+}
+.lumi-hud-pill > .hud-value,
+.hud-pill > .hud-value,
+.lumi-hud-pill > .lumi-hud-value,
+.hud-pill > .lumi-hud-value,
+.lumi-dashboard-hud > div > :last-child,
+.lumi-hud-strip > div > :last-child {
+  margin-top: auto !important;
+  font-size: clamp(15px, 1.9vw, 20px) !important;
+}
+
+/* Universal SVG Ghost Rect Guardrail & Canvas Aspect-Ratio Containment */
+svg g:has(> rect[y="0"] + text[y="0"]) > rect[y="0"] {
+  display: none !important;
+}
+canvas {
+  max-height: 460px !important;
+}
+.canvas-wrapper,
+[class*="canvas-wrap"],
+[class*="canvas-container"] {
+  aspect-ratio: auto !important;
+  min-height: 0 !important;
+  height: auto !important;
+  max-height: none !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+[class*="math-block"],
+[class*="formula-pill"],
+div:has(> math[display="block"]) {
+  border-radius: var(--r-m, 12px) !important;
+}
+.lumi-dashboard-hud,
+.lumi-hud-strip {
+  gap: 16px 28px !important;
+}
+.lumi-dashboard-hud > *,
+.lumi-hud-strip > * {
+  padding-right: 12px !important;
+}
+/* fix2: removed `hr, .lumi-divider, [class*="divider"] { margin:0 !important }` (DOUBLE_RULE 46→56) */
+.lumi-container,
+.page-container,
+.lumi-page,
+[class*="container"] {
+  gap: 28px !important;
+}
+[class*="container"] > section,
+body > section,
+.lumi-section {
+  padding-top: 12px !important;
+  padding-bottom: 12px !important;
+  margin-top: 0 !important;
+  margin-bottom: 16px !important;
+  /* fix2: removed `overflow-x: clip !important` (clipped the runtime's own input.lumi-slider margin-right:-14px → CLIPPED_TEXT 1→7 pages) */
+}
+[class*="grid-wrapper"],
+[class*="table-wrapper"],
+[class*="table-widget"] {
+  overflow-x: auto !important;
+  max-width: 100% !important;
+}
+.lumi-section ul,
+.lumi-section ol {
+  width: auto !important;
+  margin-left: 0 !important;
+}
+div:has(> [class*="chip"]) {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  min-height: 0 !important;
+  gap: 8px !important;
+}
+[class*="chip"] {
+  display: inline-flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 6px !important;
+  white-space: nowrap !important;
+  padding: 4px 12px !important;
+  min-height: 0 !important;
+  height: auto !important;
+  flex: 0 0 auto !important;
+}
+[class*="chip"] br {
+  display: none !important;
+}
+[class*="options"] > * > :first-child:not(:only-child),
+[class*="options"] button > span:first-child:not(:only-child) {
+  min-width: 32px !important;
+  display: inline-block !important;
+  flex-shrink: 0 !important;
+  text-align: left !important;
+}
+[class*="options"] button > span:nth-child(2):last-child {
+  font-family: var(--ff-mono, "Google Sans Code", monospace) !important;
+  font-variant-numeric: tabular-nums !important;
+  min-width: 72px !important;
+  display: inline-block !important;
+  text-align: right !important;
+}
+[class*="visualizer"]:not(canvas):not(svg),
+[class*="display"]:not(canvas):not(svg) {
+  min-height: 0 !important;
+}
+[class*="bar-track"] > *,
+[class*="stacked-bar"] > * {
+  transition: none !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+  padding-inline: 4px !important;
+}
+.lumi-dashboard-hud + hr,
+.lumi-hud-strip + hr,
+.lumi-dashboard-hud + .lumi-divider,
+.lumi-hud-strip + .lumi-divider {
+  display: none !important;
+}
+
+/* 4. Universal Light-Theme Code & Panel Surface Invariant:
+      In Luminous Light Mode, code blocks (.lumi-code-block, .lumi-code-snippet, pre)
+      and side-by-side code cards must use clean light surface (--surface-dim #f2f0f0)
+      with dark ink (#000) and sensible 16px radius, NEVER giant pitch-black #000 blobs. */
+body.lumi-theme-light .lumi-code-block,
+body.lumi-theme-light pre,
+body.lumi-theme-light .lumi-code-snippet,
+body.lumi-theme-light [class*="code-card"],
+body.lumi-theme-light [class*="code-block"],
+body.lumi-theme-light [class*="code-panel"],
+body.lumi-theme-light [class*="snippet"],
+body.lumi-theme-light [class*="terminal"],
+body.lumi-theme-light [class*="payload"] {
+  background-color: var(--lumi-sys-color--surface-dim, #f2f0f0) !important;
+  color: var(--lumi-sys-color--on-surface-default, #000000) !important;
+  border-radius: var(--lumi-sys-shape--medium, 16px) !important;
+  border: 1px solid var(--lumi-sys-color--stroke-default, rgba(0, 0, 0, 0.10)) !important;
+}
+body.lumi-theme-light .lumi-code-block {
+  padding: 20px !important;
+}
+body.lumi-theme-light .lumi-code-block *,
+body.lumi-theme-light pre *,
+body.lumi-theme-light .lumi-code-snippet *,
+body.lumi-theme-light [class*="code-card"] *,
+body.lumi-theme-light [class*="code-block"] *,
+body.lumi-theme-light [class*="code-panel"] *,
+body.lumi-theme-light [class*="snippet"] *,
+body.lumi-theme-light [class*="terminal"] *,
+body.lumi-theme-light [class*="payload"] * {
+  color: var(--lumi-sys-color--on-surface-default, #000000) !important;
+}
+.lumi-code-snippet code,
+pre code {
+  white-space: pre-wrap !important;
+  overflow-wrap: anywhere !important;
+  word-break: break-word !important;
+  font-size: 13px !important;
+  line-height: 19px !important;
+}
+
+/* 5. Universal Anti-Horizontal-Overflow & Grid Containment Invariant:
+      Enforce min-width: 0 on all grid/flex children so long lines inside column 1
+      can never push column 2 off the right edge of the viewport. */
+html, body {
+  max-width: 100vw !important;
+  overflow-x: hidden !important;
+}
+div, section, article, main, header, footer, pre, code, table {
+  min-width: 0 !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+[class*="btn-group"],
+[class*="chip-group"],
+[class*="step-btn"],
+[class*="tabs"] {
+  flex-wrap: wrap !important;
+}
+pre {
+  overflow-x: auto !important;
+  white-space: pre-wrap !important;
+  overflow-wrap: anywhere !important;
+  word-break: break-word !important;
+}
+
+/* 6. Universal Native HTML5 MathML Core (math / math[display="block"]) & Icon Ligature Guard:
+      Ensure native MathML equations always use the browser's OpenType MATH font family (`font-family: math`)
+      so msqrt radicals, mfrac fractions, and munderover limits render with TeX-grade precision
+      even inside --ff-sans or --ff-mono containers, and never leak unrendered Material Icon ligatures. */
+math,
+math * {
+  font-family: math, "STIX Two Math", "Cambria Math", "Latin Modern Math", serif !important;
+  color: var(--lumi-sys-color--on-surface-default, #000000);
+}
+math {
+  font-size: 1.06em;
+  line-height: 1.45;
+}
+math[display="block"] {
+  display: block math;
+  margin: 14px 0 !important;
+  padding: 8px 0 !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  max-width: 100% !important;
+}
+.lumi-accordion-icon,
+.material-icons,
+.material-symbols-outlined {
+  font-size: 0 !important;
+  width: 20px !important;
+  height: 20px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+.lumi-accordion-icon::after {
+  content: "▾";
+  font-family: var(--ff-sans, "Google Sans Flex", sans-serif) !important;
+  font-size: 16px !important;
+  line-height: 1 !important;
+  color: var(--lumi-sys-color--on-surface-default, #000000) !important;
+}
+.lumi-breakpoint-check,
+[class*="quick-check"],
+[class*="checkpoint"] {
+  border-top: 1px solid var(--lumi-sys-color--on-surface-low, rgba(0, 0, 0, 0.08)) !important;
+  border-bottom: 1px solid var(--lumi-sys-color--on-surface-low, rgba(0, 0, 0, 0.08)) !important;
+  padding: 20px 0 !important;
+  margin: 20px 0 !important;
+  background: transparent !important;
+}
+
+/* Universal Flex/Grid Intrinsic Overflow Guard (prevents wide tables/math from stretching .lumi-seq-content past viewport) */
+.lumi-sequence,
+.lumi-seq-step,
+.lumi-seq-content,
+.lumi-callout,
+.lumi-card,
+.lumi-table-widget,
+section,
+main,
+article {
+  min-width: 0 !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+.lumi-seq-content {
+  overflow-x: auto !important;
+}
+.lumi-seq-content table,
+.lumi-callout table,
+section table {
+  display: block;
+  max-width: 100% !important;
+  overflow-x: auto !important;
+}
+[class*="term-grid"],
+[id*="term-grid"],
+[class*="pill-grid"],
+[class*="tile-grid"] {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(132px, 1fr)) !important;
+  gap: 8px !important;
+}
+
+/* ============================================================
+ * PROPOSAL 2 (statekeeper loop, 2026-09-23): runtime fixes F2 + F3
+ * F2. One checkbox per row: when the author pairs a native <input type=checkbox> with a hand-drawn
+ *     .lumi-checkbox box, keep the (runtime-styled, accessible) native input and hide the drawing.
+ * F3. Segmented controls never clip their labels: wrap onto a second row instead of overflow:hidden.
+ * ============================================================ */
+input[type="checkbox"] + .lumi-checkbox,
+input[type="checkbox"] + label > .lumi-checkbox:first-child {
+  display: none !important;
+}
+.lumi-checkbox:has(> input[type="checkbox"]) {
+  border: none !important;
+  background: transparent !important;
+  width: auto !important;
+  height: auto !important;
+  padding: 0 !important;
+}
+.lumi-segmented-group {
+  flex-wrap: wrap !important;
+}
+.lumi-segmented-btn {
+  min-width: max-content !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+}
+
+/* fix2 = fix (F1–F3) minus the four cl/985512882 regressions marked "fix2:" above (2026-09-23). */
+
+</style>
+<script id="lumi-runtime-init">
+(function(){
+  function syncSlider(el){
+    if(!el || el.type !== 'range') return;
+    var min = parseFloat(el.min || 0), max = parseFloat(el.max || 100), val = parseFloat(el.value || 0);
+    var pct = (max > min) ? ((val - min) / (max - min)) * 100 : 50;
+    el.style.setProperty('--progress', pct.toFixed(2) + '%');
+  }
+  function initAll(){ document.querySelectorAll('input[type="range"]').forEach(syncSlider); }
+  document.addEventListener('input', function(e){ syncSlider(e.target); }, true);
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initAll);
+  else initAll();
+})();
+</script>
+</head>
+<body class="lumi-theme-light">
+
+  <div class="app-container">
+    
+    <!-- Top Header -->
+    <header class="app-header">
+      <div class="header-top">
+        <div class="app-title-group">
+          <h1>📘 Spring Boot Backend Mastery</h1>
+          <p>Comprehensive Core, REST API, JPA Data, Dev Tools & Testing Reference</p>
+        </div>
+        <div class="toolbar-actions">
+          <button class="lumi-btn lumi-btn--tonal" onclick="toggleTheme()" id="themeToggleBtn">
+            <span class="material-symbols-outlined">dark_mode</span> Theme
+          </button>
+          <button class="lumi-btn lumi-btn--tonal" onclick="expandAllSections()">
+            <span class="material-symbols-outlined">unfold_more</span> View All
+          </button>
+          <button class="lumi-btn lumi-btn--accent" onclick="window.print()">
+            <span class="material-symbols-outlined">download</span> Download PDF
+          </button>
+        </div>
+      </div>
+
+      <!-- Quick Metrics Strip -->
+      <div class="lumi-dashboard-hud">
+        <div class="hud-pill">
+          <span class="hud-label">Mastery Modules</span>
+          <span class="hud-value">5 Phases</span>
+        </div>
+        <div class="hud-pill">
+          <span class="hud-label">Core Topics</span>
+          <span class="hud-value">22 Sections</span>
+        </div>
+        <div class="hud-pill">
+          <span class="hud-label">Code Samples</span>
+          <span class="hud-value">35+ Snippets</span>
+        </div>
+        <div class="hud-pill">
+          <span class="hud-label">Target Stack</span>
+          <span class="hud-value">Spring Boot 3.x</span>
+        </div>
+      </div>
+
+      <!-- Search & Interactive Filter Bar -->
+      <div class="search-filter-row">
+        <div class="search-input-wrapper">
+          <span class="material-symbols-outlined">search</span>
+          <input type="text" id="searchInput" class="lumi-input" placeholder="Search annotations (@Transactional, @Mock, @Valid), topics, or interview tips..." onkeyup="filterContent()">
+        </div>
+      </div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <nav class="lumi-tab-bar" id="phaseTabBar">
+      <button class="lumi-tab active" onclick="switchPhase('phase1')">
+        <span>Phase 1: Core</span>
+        <span class="badge">8 Topics</span>
+      </button>
+      <button class="lumi-tab" onclick="switchPhase('phase2')">
+        <span>Phase 2: MVC & REST</span>
+        <span class="badge">4 Topics</span>
+      </button>
+      <button class="lumi-tab" onclick="switchPhase('phase3')">
+        <span>Phase 3: Data JPA</span>
+        <span class="badge">6 Topics</span>
+      </button>
+      <button class="lumi-tab" onclick="switchPhase('phase4')">
+        <span>Phase 4: DevTools</span>
+        <span class="badge">4 Topics</span>
+      </button>
+      <button class="lumi-tab" onclick="switchPhase('phase6')">
+        <span>Phase 6: Testing</span>
+        <span class="badge">3 Topics</span>
+      </button>
+      <button class="lumi-tab" onclick="switchPhase('summary')">
+        <span>📋 Master Cheat Sheet</span>
+        <span class="badge">All</span>
+      </button>
+    </nav>
+
+    <!-- MAIN CONTENT CONTAINERS -->
+
+    <!-- ==================== PHASE 1: SPRING CORE ==================== -->
+    <section id="phase1" class="phase-content active">
+      <div class="topic-card">
+        <div class="topic-header">
+          <h2 class="topic-title"><span class="topic-tag">1.1</span> Why Spring?</h2>
+        </div>
+        
+        <h3>Problem WITHOUT Spring (Plain Java)</h3>
+        <p>In standard Java applications, classes construct their own dependencies directly, leading to tight coupling.</p>
+        <div class="lumi-code-block">
+          <div class="lumi-code-header"><span class="lumi-code-lang">Java</span><button class="lumi-code-copy" onclick="copyCode(this)"><span class="material-symbols-outlined">content_copy</span> Copy</button></div>
+          <pre class="lumi-code-snippet"><code><span class="cmt">// ❌ Tight Coupling — Every class creates its own dependencies</span>
+<span class="kw">public class</span> <span class="cls">UserService</span> {
+    <span class="kw">private</span> <span class="cls">UserRepository</span> repo = <span class="kw">new</span> <span class="cls">UserRepository</span>(); <span class="cmt">// hardcoded!</span>
+}
+<span class="kw">public class</span> <span class="cls">UserController</span> {
+    <span class="kw">private</span> <span class="cls">UserService</span> service = <span class="kw">new</span> <span class="cls">UserService</span>();    <span class="cmt">// hardcoded!</span>
+}</code></pre>
+        </div>
+
+        <div class="lumi-callout">
+          <div class="lumi-callout-title"><span class="material-symbols-outlined">warning</span> Key Drawbacks of Plain Java</div>
+          <div class="lumi-callout-body">
+            <ul>
+              <li><strong>Tight Coupling:</strong> Classes depend on concrete implementations instead of interfaces.</li>
+              <li><strong>Manual Object Management:</strong> <code>new SomeClass()</code> is scattered everywhere.</li>
+              <li><strong>Difficult Testing:</strong> Inability to swap or mock implementations during unit tests.</li>
+              <li><strong>Boilerplate Code:</strong> Repetitive configuration and instantiation setup.</li>
+              <li><strong>No Lifecycle Management:</strong> Manual creation and destruction of resources.</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>Spring's Core Paradigm</h3>
+        <div class="lumi-table-widget">
+          <table class="lumi-table">
+            <thead><tr><th>Plain Java Problem</th><th>Spring Framework Solution</th></tr></thead>
+            <tbody>
+              <tr><td>Tight Coupling</td><td><strong>IOC (Inversion of Control)</strong> → Loose Coupling via Interfaces</td></tr>
+              <tr><td>Manual Objects</td><td><strong>Spring Container</strong> manages all objects (Beans) automatically</td></tr>
+              <tr><td>Hard to Test</td><td><strong>Dependency Injection (DI)</strong> makes swapping mock implementations seamless</td></tr>
+              <tr><td>Boilerplate Code</td><td>Auto-configuration + Annotations eliminate repetitive code</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="lumi-callout">
+          <div class="lumi-callout-title"><span class="material-symbols-outlined">stars</span> Interview Core Point</div>
+          <div class="lumi-callout-body">
+            Strong answer: <em>"Spring's IOC Container manages object creation and DI provides required dependencies, making code loosely coupled and highly testable."</em>
+          </div>
+        </div>
+      </div>
+
+      <div class="topic-card">
+        <div class="topic-header">
+          <h2 class="topic-title"><span class="topic-tag">1.2</span> IOC Container & Bean Lifecycle</h2>
+        </div>
+        <p>Spring's bean manager handles creating objects, managing their lifecycle, and injecting dependencies.</p>
+        
+        <h3>BeanFactory vs ApplicationContext</h3>
+        <div class="lumi-table-widget">
+          <table class="lumi-table">
+            <thead>
+              <tr><th>Feature</th><th>BeanFactory</th><th>ApplicationContext</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Bean Creation</td><td>Lazy (on demand)</td><td><strong>Eager (at startup)</strong></td></tr>
+              <tr><td>Event Publication</td><td>❌ No</td><td>✅ Yes</td></tr>
+              <tr><td>i18n Internationalization</td><td>❌ No</td><td>✅ Yes</td></tr>
+              <tr><td>AOP Support</td><td>❌ No</td><td>✅ Yes</td></tr>
+              <tr><td>Recommendation</td><td>❌ Legacy / Memory constrained</td><td>✅ <strong>Standard (Always Use)</strong></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Bean Lifecycle Stages</h3>
+        <ol class="lumi-sequence">
+          <li class="lumi-seq-step">
+            <div class="lumi-seq-num">1</div>
+            <div class="lumi-seq-content"><strong>Class Loading:</strong> Spring scans classpath annotations.</div>
+          </li>
+          <li class="lumi-seq-step">
+            <div class="lumi-seq-num">2</div>
+            <div class="lumi-seq-content"><strong>Instantiation:</strong> Container executes <code>new ClassName()</code>.</div>
+          </li>
+          <li class="lumi-seq-step">
+            <div class="lumi-seq-num">3</div>
+            <div class="lumi-seq-content"><strong>Dependency Injection:</strong> Injects `@Autowired` dependencies into fields/constructors.</div>
+          </li>
+          <li class="lumi-seq-step">
+            <div class="lumi-seq-num">4</div>
+            <div class="lumi-seq-content"><strong>@PostConstruct:</strong> Custom initialization logic runs after DI completes.</div>
+          </li>
+          <li class="lumi-seq-step">
+            <div class="lumi-seq-num">5</div>
+            <div class="lumi-seq-content"><strong>Bean Ready:</strong> Bean is available for application execution.</div>
+          </li>
+          <li class="lumi-seq-step">
+            <div class="lumi-seq-num">6</div>
+            <div class="lumi-seq-content"><strong>@PreDestroy:</strong> Cleanup hook called before container shutdown.</div>
+          </li>
+        </ol>
+      </div>
+
+      <div class="topic-card">
+        <div class="topic-header">
+          <h2 class="topic-title"><span class="topic-tag">1.3</span> Spring Beans & Stereotypes</h2>
+        </div>
+        <p>A Spring Bean is any Java object whose lifecycle is managed by the Spring IOC Container.</p>
+
+        <h3>@Component vs @Bean</h3>
+        <div class="lumi-table-widget">
+          <table class="lumi-table">
+            <thead><tr><th>Annotation</th><th>Applied To</th><th>Control / Creation</th><th>Best For</th></tr></thead>
+            <tbody>
+              <tr><td><code>@Component</code></td><td>Class Level</td><td>Spring automatically detects and creates</td><td>Your custom application source code</td></tr>
+              <tr><td><code>@Bean</code></td><td>Method Level</td><td>You write instantiation code, Spring manages instance</td><td>Third-party libraries (e.g. <code>ObjectMapper</code>)</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Stereotype Annotations</h3>
+        <ul>
+          <li><code>@Component</code>: Generic archetype for any Spring-managed component.</li>
+          <li><code>@Service</code>: Specializes `@Component` for business logic services.</li>
+          <li><code>@Repository</code>: Specializes `@Component` for DAOs + adds <strong>Exception Translation</strong> (DB exceptions translated to Spring's <code>DataAccessException</code>).</li>
+          <li><code>@Controller</code> / <code>@RestController</code>: Specializes for Web/REST endpoints.</li>
+        </ul>
+      </div>
+
+      <div class="topic-card">
+        <div class="topic-header">
+          <h2 class="topic-title"><span class="topic-tag">1.4</span> Dependency Injection (DI) Types</h2>
+        </div>
+        
+        <div class="lumi-table-widget">
+          <table class="lumi-table">
+            <thead><tr><th>Injection Type</th><th>Final Fields Allowed?</th><th>Easy Unit Testing?</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td>Field Injection (<code>@Autowired</code> on field)</td><td>❌ No</td><td>❌ Hard (Requires Reflection)</td><td>❌ <strong>Avoid</strong></td></tr>
+              <tr><td>Setter Injection</td><td>❌ No</td><td>🟡 Moderate</td><td>🟡 Optional Only</td></tr>
+              <tr><td><strong>Constructor Injection</strong></td><td>✅ <strong>Yes (Immutable)</strong></td><td>✅ <strong>Easy (Pass mocks)</strong></td><td>✅ <strong>Always Use</strong></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="lumi-code-block">
+          <div class="lumi-code-header"><span class="lumi-code-lang">Java (Production Pattern)</span><button class="lumi-code-copy" onclick="copyCode(this)"><span class="material-symbols-outlined">content_copy</span> Copy</button></div>
+          <pre class="lumi-code-snippet"><code><span class="ann">@Service</span>
+<span class="ann">@RequiredArgsConstructor</span> <span class="cmt">// Lombok generates constructor for final fields!</span>
+<span class="kw">public class</span> <span class="cls">UserService</span> {
+    <span class="kw">private final</span> <span class="cls">UserRepository</span> userRepository; <span class="cmt">// final + clean constructor DI</span>
+    <span class="kw">private final</span> <span class="cls">EmailService</span> emailService;
+}</code></pre>
+        </div>
+      </div>
+
+      <div class="topic-card">
+        <div class="topic-header">
+          <h2 class="topic-title"><span class="topic-tag">1.5 - 1.8</span> Dependency Resolution, Scopes & AutoConfig</h2>
+        </div>
+        
+        <h3>Bean Conflict Resolution: @Qualifier vs @Primary</h3>
+        <p>When multiple beans of the same interface type exist, Spring resolves conflicts as follows:</p>
+        <ul>
+          <li><code>@Primary</code>: Sets a default bean to inject when no explicit qualifier is named.</li>
+          <li><code>@Qualifier("beanName")</code>: Specifies the explicit bean name to inject (case-sensitive).</li>
+          <li><strong>Rule:</strong> <code>@Qualifier</code> <strong>always beats</strong> <code>@Primary</code> (Specific > Default).</li>
+        </ul>
+
+        <h3>Bean Scopes</h3>
+        <div class="lumi-table-widget">
+          <table class="lumi-table">
+            <thead><tr><th>Scope</th><th>Instances Created</th><th>State Rule</th><th>@PreDestroy Called?</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Singleton (Default)</strong></td><td>1 shared instance per container</td><td>Must be <strong>STATELESS</strong>!</td><td>✅ Yes</td></tr>
+              <tr><td><strong>Prototype</strong></td><td>New instance per request/injection</td><td>Can carry state</td><td>❌ No (You manage cleanup)</td></tr>
+              <tr><td><strong>Request / Session</strong></td><td>Per HTTP Request / User Session</td><td>Web scoped state</td><td>✅ Yes</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>AutoConfiguration Mechanics</h3>
+        <p>Spring Boot triggers auto-configuration via <code>@EnableAutoConfiguration</code>, reading <code>AutoConfiguration.imports</code> and validating <code>@ConditionalOnClass</code> and <code>@ConditionalOnMissingBean</code>.</p>
+        
+        <div class="lumi-callout">
+          <div class="lumi-callout-title"><span class="material-symbols-outlined">key</span> Golden Rule of AutoConfiguration</div>
+          <div class="lumi-callout-body">
+            <strong>Your custom bean ALWAYS wins.</strong> Because Spring AutoConfig uses <code>@ConditionalOnMissingBean</code>, if you define your own custom bean, Spring Boot skips its default auto-configured bean!
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== PHASE 2: SPRING MVC & REST APIs ==================== -->
+    <section id="phase2" class="phase-content">
+      <div class="topic-card">
+        <div class="topic-header">
+          <h2 class="topic-title"><span class="topic-tag">2.1</span> Spring MVC Architecture & DispatcherServlet</h2>
+        </div>
+        <p><strong>DispatcherServlet</strong> acts as the central Front Controller for every incoming HTTP request in Spring MVC.</p>
+        
+        <h3>Complete Request Processing Flow</h3>
+        <ol class="lumi-sequence">
+          <li class="lumi-seq-step">
+            <div class="lumi-seq-num">1</div>
+            <div class="lumi-seq-content"><strong>Client Request:</strong> HTTP Request arrives at embedded Tomcat (e.g., <code>GET /api/users/1</code>).</div>
+          </li>
+          <li class="lumi-seq-step">
+            <div class="lumi-seq-num">2</div>
+            <div class="lumi-seq-content"><strong>DispatcherServlet:</strong> Intercepts request and consults <code>HandlerMapping</code>.</div>
+          </li>
+          <li class="lumi-seq-step">
+            <div class="lumi-seq-num">3</div>
+            <div class="lumi-seq-content"><strong>HandlerMapping:</strong> Resolves URL mapping to target `@RestController` method.</div>
+          </li>
+          <li class="lumi-seq-step">
+            <div class="lumi-seq-num">4</div>
+            <div class="lumi-seq-content"><strong>Controller Execution:</strong> Controller executes service logic and returns Java object/DTO.</div>
+          </li>
+          <li class="lumi-seq-step">
+            <div class="lumi-seq-num">5</div>
+            <div class="lumi-seq-content"><strong>HttpMessageConverter (Jackson):</strong> Serializes Java DTO into JSON response payload.</div>
+          </li>
+        </ol>
+      </div>
+
+      <div class="topic-card">
+        <div class="topic-header">
+          <h2 class="topic-title"><span class="topic-tag">2.2</span> RESTful API Design & ResponseEntity</h2>
+        </div>
+        
+        <h3>HTTP Verbs & Status Code Rules</h3>
+        <div class="lumi-table-widget">
+          <table class="lumi-table">
+            <thead><tr><th>HTTP Verb</th><th>Purpose</th><th>Success Status</th><th>Key Difference</th></tr></thead>
+            <tbody>
+              <tr><td><code>GET</code></td><td>Fetch data</td><td>200 OK</td><td>Read-only, no side effects</td></tr>
+              <tr><td><code>POST</code></td><td>Create new resource</td><td><strong>201 Created</strong></td><td>Returns location header & created object</td></tr>
+              <tr><td><code>PUT</code></td><td>Full replacement</td><td>200 OK</td><td><strong>Replaces entire entity</strong> (missing fields become NULL)</td></tr>
+              <tr><td><code>PATCH</code></td><td>Partial update</td><td>200 OK</td><td><strong>Updates only provided fields</strong></td></tr>
+              <tr><td><code>DELETE</code></td><td>Remove resource</td><td><strong>204 No Content</strong></td><td>No body returned</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="lumi-callout">
+          <div class="lumi-callout-title"><span class="material-symbols-outlined">help</span> 401 Unauthorized vs 403 Forbidden</div>
+          <div class="lumi-callout-body">
+            <ul>
+              <li><strong>401 Unauthorized:</strong> Authentication missing or invalid (<em>"Who are you? Log in first!"</em>).</li>
+              <li><strong>403 Forbidden:</strong> Authenticated, but lacking permission (<em>"I know who you are, but access is denied!"</em>).</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="topic-card">
+        <div class="topic-header">
+          <h2 class="topic-title"><span class="topic-tag">2.3</span> Bean Validation</h2>
+        </div>
+        <p>Trigger validation on incoming DTOs using `@Valid` on the `@RequestBody` controller parameter.</p>
+
+        <h3>Validation Annotation Hierarchy for Strings</h3>
+        <div class="lumi-table-widget">
+          <table class="lumi-table">
+            <thead><tr><th>Annotation</th><th>Rejects Null?</th><th>Rejects Empty ("")?</th><th>Rejects Spaces (" ")?</th><th>Best For</th></tr></thead>
+            <tbody>
+              <tr><td><code>@NotNull</code></td><td>✅ Yes</td><td>❌ No</td><td>❌ No</td><td>Numbers, Dates, Objects</td></tr>
+              <tr><td><code>@NotEmpty</code></td><td>✅ Yes</td><td>✅ Yes</td><td>❌ No</td><td>Collections, Lists</td></tr>
+              <tr><td><code>@NotBlank</code></td><td>✅ Yes</td><td>✅ Yes</td><td>✅ Yes</td><td><strong>String text fields (Most Strict ⭐)</strong></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="topic-card">
+        <div class="topic-header">
+          <h2 class="topic-title"><span class="topic-tag">2.4</span> Global Exception Handling (@RestControllerAdvice)</h2>
+        </div>
+        
+        <div class="lumi-code-block">
+          <div class="lumi-code-header"><span class="lumi-code-lang">Java</span><button class="lumi-code-copy" onclick="copyCode(this)"><span class="material-symbols-outlined">content_copy</span> Copy</button></div>
+          <pre class="lumi-code-snippet"><code><span class="ann">@RestControllerAdvice</span>
+<span class="kw">public class</span> <span class="cls">GlobalExceptionHandler</span> {
+
+    <span class="cmt">// 1. Handle Custom Business Exceptions</span>
+    <span class="ann">@ExceptionHandler</span>(<span class="cls">ResourceNotFoundException</span>.<span class="kw">class</span>)
+    <span class="kw">public</span> <span class="cls">ResponseEntity</span>&lt;<span class="cls">ErrorResponse</span>&gt; <span class="fn">handleNotFound</span>(<span class="cls">ResourceNotFoundException</span> ex, <span class="cls">HttpServletRequest</span> req) {
+        <span class="cls">ErrorResponse</span> error = <span class="cls">ErrorResponse</span>.builder()
+                .status(404).message(ex.getMessage()).path(req.getRequestURI()).timestamp(<span class="cls">LocalDateTime</span>.now()).build();
+        <span class="kw">return</span> <span class="cls">ResponseEntity</span>.status(404).body(error);
+    }
+
+    <span class="cmt">// 2. Handle DTO Validation Failures (@Valid)</span>
+    <span class="ann">@ExceptionHandler</span>(<span class="cls">MethodArgumentNotValidException</span>.<span class="kw">class</span>)
+    <span class="kw">public</span> <span class="cls">ResponseEntity</span>&lt;<span class="cls">ErrorResponse</span>&gt; <span class="fn">handleValidation</span>(<span class="cls">MethodArgumentNotValidException</span> ex) {
+        <span class="cls">Map</span>&lt;<span class="cls">String</span>, <span class="cls">String</span>&gt; errors = <span class="kw">new</span> <span class="cls">HashMap</span>&lt;&gt;();
+        ex.getBindingResult().getFieldErrors().forEach(e -&gt; errors.put(e.getField(), e.getDefaultMessage()));
+        <span class="kw">return</span> <span class="cls">ResponseEntity</span>.badRequest().body(<span class="cls">ErrorResponse</span>.builder().status(400).fieldErrors(errors).build());
+    }
+}</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== PHASE 3: SPRING DATA JPA ==================== -->
+    <section id="phase3" class="phase-content">
+      <div class="topic-card">
+        <div class="topic-header">
+          <h2 class="topic-title"><span class="topic-tag">3.1 - 3.2</span> ORM, Hibernate & JpaRepository</h2>
+        </div>
+        <p>Spring Data JPA wraps Hibernate to provide declarative repositories and automated SQL generation.</p>
+
+        <h3>ddl-auto Configuration Options</h3>
+        <div class="lumi-table-widget">
+          <table class="lumi-table">
+            <thead><tr><th>Mode</th><th>Action</th><th>Environment Usage</th></tr></thead>
+            <tbody>
+              <tr><td><code>create</code></td><td>Drops existing tables and creates new schema on startup</td><td>❌ Testing Only</td></tr>
+              <tr><td><code>update</code></td><td>Updates schema dynamically without dropping data</td><td>🟡 Development Only</td></tr>
+              <tr><td><code>validate</code></td><td>Validates schema matches entities without modifying DB</td><td>✅ <strong>Production Standard</strong></td></tr>
+              <tr><td><code>none</code></td><td>No schema operations performed</td><td>✅ Production (Flyway/Liquibase)</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>save() Execution Behavior</h3>
+        <p>Calling <code>repository.save(entity)</code> inspects the Primary Key field:</p>
+        <ul>
+          <li>If <code>id == null</code> → Executes SQL <code>INSERT</code>.</li>
+          <li>If <code>id != null</code> → Executes SQL <code>UPDATE</code>.</li>
+        </ul>
+      </div>
+
+      <div class="topic-card">
+        <div class="topic-header">
+          <h2 class="topic-title"><span class="topic-tag">3.3</span> Entity Relationships & Owner Concept</h2>
+        </div>
+        
+        <div class="lumi-callout">
+          <div class="lumi-callout-title"><span class="material-symbols-outlined">link</span> Relationship Owner Rule</div>
+          <div class="lumi-callout-body">
+            The <strong>Owner side</strong> contains the Foreign Key (FK) column in the database (e.g., `@ManyToOne`). The <strong>Non-Owner side</strong> uses <code>mappedBy = "fieldName"</code> referencing the field in the owner class. <code>mappedBy</code> is ONLY placed on the non-owner side!
+          </div>
+        </div>
+
+        <div class="lumi-code-block">
+          <div class="lumi-code-header"><span class="lumi-code-lang">Java Entity Relationship</span><button class="lumi-code-copy" onclick="copyCode(this)"><span class="material-symbols-outlined">content_copy</span> Copy</button></div>
+          <pre class="lumi-code-snippet"><code><span class="cmt">// OWNER SIDE (Contains FK Column)</span>
+<span class="ann">@Entity</span>
+<span class="kw">public class</span> <span class="cls">Post</span> {
+    <span class="ann">@ManyToOne</span>(fetch = <span class="cls">FetchType</span>.LAZY)
+    <span class="ann">@JoinColumn</span>(name = <span class="str">"user_id"</span>, nullable = <span class="kw">false</span>)
+    <span class="kw">private</span> <span class="cls">User</span> user;
+}
+
+<span class="cmt">// NON-OWNER SIDE (Refers to owner field)</span>
+<span class="ann">@Entity</span>
+<span class="kw">public class</span> <span class="cls">User</span> {
+    <span class="ann">@OneToMany</span>(mappedBy = <span class="str">"user"</span>, cascade = <span class="cls">CascadeType</span>.ALL, fetch = <span class="cls">FetchType</span>.LAZY)
+    <span class="kw">private</span> <span class="cls">List</span>&lt;<span class="cls">Post</span>&gt; posts = <span class="kw">new</span> <span class="cls">ArrayList</span>&lt;&gt;();
+}</code></pre>
+        </div>
+      </div>
+
+      <div class="topic-card">
+        <div class="topic-header">
+          <h2 class="topic-title"><span class="topic-tag">3.4</span> EAGER vs LAZY Loading & N+1 Problem</h2>
+        </div>
+
+        <h3>Default Fetch Types (Memorize!)</h3>
+        <div class="lumi-table-widget">
+          <table class="lumi-table">
+            <thead><tr><th>Annotation</th><th>Default Fetch Type</th><th>Recommended Action</th></tr></thead>
+            <tbody>
+              <tr><td><code>@OneToMany</code></td><td>LAZY ✅</td><td>Keep Default</td></tr>
+              <tr><td><code>@ManyToMany</code></td><td>LAZY ✅</td><td>Keep Default</td></tr>
+              <tr><td><code>@ManyToOne</code></td><td><strong>EAGER ⚠️</strong></td><td><strong>Override to LAZY!</strong></td></tr>
+              <tr><td><code>@OneToOne</code></td><td><strong>EAGER ⚠️</strong></td><td><strong>Override to LAZY!</strong></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Solving the N+1 Problem with JOIN FETCH</h3>
+        <p>Executing <code>findAll()</code> with LAZY associations causes 1 initial query + N additional queries per child item. Fix it using <code>JOIN FETCH</code>:</p>
+        
+        <div class="lumi-code-block">
+          <div class="lumi-code-header"><span class="lumi-code-lang">Java Repository JPQL</span><button class="lumi-code-copy" onclick="copyCode(this)"><span class="material-symbols-outlined">content_copy</span> Copy</button></div>
+          <pre class="lumi-code-snippet"><code><span class="cmt">// Solves N+1 in a single query!</span>
+<span class="ann">@Query</span>(<span class="str">"SELECT p FROM Post p JOIN FETCH p.user"</span>)
+<span class="cls">List</span>&lt;<span class="cls">Post</span>&gt; <span class="fn">findAllWithUser</span>();</code></pre>
+        </div>
+      </div>
+
+      <div class="topic-card">
+        <div class="topic-header">
+          <h2 class="topic-title"><span class="topic-tag">3.5 - 3.6</span> @Transactional & Pagination</h2>
+        </div>
+        
+        <div class="lumi-callout">
+          <div class="lumi-callout-title"><span class="material-symbols-outlined">warning</span> Critical Proxy Bug: Self Invocation</div>
+          <div class="lumi-callout-body">
+            Calling a <code>@Transactional</code> method from within the same class (e.g., <code>this.createUser()</code>) <strong>bypasses the Spring AOP Proxy</strong>, causing transaction management to fail silently! Move transactional methods to a separate Spring Service Bean.
+          </div>
+        </div>
+
+        <h3>Pagination Implementation Pattern</h3>
+        <div class="lumi-code-block">
+          <div class="lumi-code-header"><span class="lumi-code-lang">Java Service</span><button class="lumi-code-copy" onclick="copyCode(this)"><span class="material-symbols-outlined">content_copy</span> Copy</button></div>
+          <pre class="lumi-code-snippet"><code><span class="cmt">// Note: Page numbers are 0-indexed!</span>
+<span class="cls">Pageable</span> pageable = <span class="cls">PageRequest</span>.of(pageNo, pageSize, <span class="cls">Sort</span>.by(sortBy).ascending());
+<span class="cls">Page</span>&lt;<span class="cls">User</span>&gt; pageResult = userRepository.findAll(pageable);</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== PHASE 4: DEV TOOLS & QUALITY ==================== -->
+    <section id="phase4" class="phase-content">
+      <div class="topic-card">
+        <div class="topic-header">
+          <h2 class="topic-title"><span class="topic-tag">4.1 - 4.2</span> OpenAPI/Swagger & Actuator</h2>
+        </div>
+        
+        <h3>Spring Boot Actuator Endpoints</h3>
+        <div class="lumi-table-widget">
+          <table class="lumi-table">
+            <thead><tr><th>Endpoint</th><th>Purpose</th><th>Production Best Practice</th></tr></thead>
+            <tbody>
+              <tr><td><code>/actuator/health</code></td><td>App & DB status (<code>UP</code>/<code>DOWN</code>)</td><td>Used for Kubernetes Liveness & Readiness Probes</td></tr>
+              <tr><td><code>/actuator/metrics</code></td><td>JVM Memory, CPU, HTTP throughput</td><td>Prometheus / Grafana Scraping</td></tr>
+              <tr><td><code>/actuator/loggers</code></td><td><strong>Change log levels dynamically!</strong></td><td>Change package log level at runtime via HTTP POST</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="lumi-callout">
+          <div class="lumi-callout-title"><span class="material-symbols-outlined">shield</span> Security Rule</div>
+          <div class="lumi-callout-body">
+            ⚠️ <strong>NEVER use <code>include: "*"</code> in Production!</strong> It exposes sensitive application properties and environment variables. Expose only <code>include: "health,metrics"</code> and secure endpoints behind ADMIN roles.
+          </div>
+        </div>
+      </div>
+
+      <div class="topic-card">
+        <div class="topic-header">
+          <h2 class="topic-title"><span class="topic-tag">4.3 - 4.4</span> Profiles & SLF4J Logging</h2>
+        </div>
+
+        <h3>5 Logging Levels (Order of Severity)</h3>
+        <p><code>TRACE &lt; DEBUG &lt; INFO &lt; WARN &lt; ERROR</code>. Setting a level includes that level and all levels higher in severity.</p>
+
+        <div class="lumi-callout">
+          <div class="lumi-callout-title"><span class="material-symbols-outlined">speed</span> Logging Performance Tip</div>
+          <div class="lumi-callout-body">
+            Always use <code>{}</code> placeholders (e.g., <code>log.info("User ID: {}", id);</code>) instead of String concatenation (<code>+</code>). Concatenation creates unnecessary String objects in memory even when the log level is disabled!
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== PHASE 6: TESTING ==================== -->
+    <section id="phase6" class="phase-content">
+      <div class="topic-card">
+        <div class="topic-header">
+          <h2 class="topic-title"><span class="topic-tag">6.1</span> JUnit 5 Fundamentals & AAA Pattern</h2>
+        </div>
+
+        <h3>The AAA Pattern</h3>
+        <div class="lumi-code-block">
+          <div class="lumi-code-header"><span class="lumi-code-lang">Java Test Structure</span><button class="lumi-code-copy" onclick="copyCode(this)"><span class="material-symbols-outlined">content_copy</span> Copy</button></div>
+          <pre class="lumi-code-snippet"><code><span class="ann">@Test</span>
+<span class="kw">void</span> <span class="fn">add_Success</span>() {
+    <span class="cmt">// 1. ARRANGE — Setup test fixtures</span>
+    <span class="kw">int</span> a = 5, b = 10;
+
+    <span class="cmt">// 2. ACT — Execute method under test</span>
+    <span class="kw">int</span> result = calculator.add(a, b);
+
+    <span class="cmt">// 3. ASSERT — Verify expected vs actual output</span>
+    <span class="fn">assertEquals</span>(15, result);
+}</code></pre>
+        </div>
+      </div>
+
+      <div class="topic-card">
+        <div class="topic-header">
+          <h2 class="topic-title"><span class="topic-tag">6.2 - 6.3</span> Mockito Framework & Complete Production Suite</h2>
+        </div>
+
+        <h3>@Mock vs @InjectMocks</h3>
+        <div class="lumi-table-widget">
+          <table class="lumi-table">
+            <thead><tr><th>Annotation</th><th>Role</th><th>Analogy</th></tr></thead>
+            <tbody>
+              <tr><td><code>@Mock</code></td><td>Creates a fake dummy instance of a dependency (Repository/API)</td><td>Stunt Double / Fake Object</td></tr>
+              <tr><td><code>@InjectMocks</code></td><td>Creates target class under test & injects all `@Mock` objects into it</td><td>Target Service Under Test</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Complete Mockito Test Suite Example</h3>
+        <div class="lumi-code-block">
+          <div class="lumi-code-header"><span class="lumi-code-lang">Java (JUnit 5 + Mockito)</span><button class="lumi-code-copy" onclick="copyCode(this)"><span class="material-symbols-outlined">content_copy</span> Copy</button></div>
+          <pre class="lumi-code-snippet"><code><span class="ann">@ExtendWith</span>(<span class="cls">MockitoExtension</span>.<span class="kw">class</span>)
+<span class="kw">class</span> <span class="cls">StudentServiceTest</span> {
+
+    <span class="ann">@Mock</span> <span class="kw">private</span> <span class="cls">StudentRepository</span> studentRepository;
+    <span class="ann">@InjectMocks</span> <span class="kw">private</span> <span class="cls">StudentService</span> studentService;
+
+    <span class="ann">@Test</span>
+    <span class="ann">@DisplayName</span>(<span class="str">"Should throw ResourceNotFoundException when student ID not found"</span>)
+    <span class="kw">void</span> <span class="fn">getStudentById_NotFound</span>() {
+        <span class="cmt">// 1. ARRANGE</span>
+        <span class="fn">when</span>(studentRepository.findByIdWithCourses(99L)).<span class="fn">thenReturn</span>(<span class="cls">Optional</span>.empty());
+
+        <span class="cmt">// 2. ACT & ASSERT</span>
+        <span class="cls">ResourceNotFoundException</span> ex = <span class="fn">assertThrows</span>(
+                <span class="cls">ResourceNotFoundException</span>.<span class="kw">class</span>,
+                () -&gt; studentService.getStudentById(99L)
+        );
+
+        <span class="fn">assertEquals</span>(<span class="str">"Student not found with id: 99"</span>, ex.getMessage());
+        <span class="fn">verify</span>(studentRepository, <span class="fn">times</span>(1)).findByIdWithCourses(99L);
+    }
+}</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== MASTER CHEAT SHEET TAB ==================== -->
+    <section id="summary" class="phase-content">
+      <div class="topic-card">
+        <div class="topic-header">
+          <h2 class="topic-title">📋 Master Quick Reference & Annotations Cheat Sheet</h2>
+        </div>
+
+        <div class="lumi-table-widget">
+          <table class="lumi-table">
+            <thead>
+              <tr><th>Annotation / Term</th><th>Phase</th><th>Key Concept / Rule</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>@Component</code> / <code>@Service</code></td><td>Phase 1</td><td>Spring-managed Bean stereotypes for components & business services</td></tr>
+              <tr><td><code>@Repository</code></td><td>Phase 1</td><td>DAO stereotype + adds <strong>Exception Translation</strong> to DataAccessException</td></tr>
+              <tr><td><code>@Qualifier</code> vs <code>@Primary</code></td><td>Phase 1</td><td>Qualifier wins over Primary (Specific > Default)</td></tr>
+              <tr><td><code>@RestController</code></td><td>Phase 2</td><td>Combines `@Controller` + `@ResponseBody` for JSON APIs</td></tr>
+              <tr><td><code>@Valid</code> / <code>@NotBlank</code></td><td>Phase 2</td><td>Triggers DTO validation; `@NotBlank` rejects null, empty, and spaces</td></tr>
+              <tr><td><code>@RestControllerAdvice</code></td><td>Phase 2</td><td>Global exception handler returning structured JSON error responses</td></tr>
+              <tr><td><code>mappedBy</code></td><td>Phase 3</td><td>Placed strictly on the <strong>Non-Owner side</strong> of JPA entity relationships</td></tr>
+              <tr><td><code>JOIN FETCH</code></td><td>Phase 3</td><td>Solves the N+1 SELECT problem in JPA JPQL queries</td></tr>
+              <tr><td><code>@Transactional</code></td><td>Phase 3</td><td>Rolls back on RuntimeException by default; fails during internal self-invocation</td></tr>
+              <tr><td><code>/actuator/health</code></td><td>Phase 4</td><td>Monitors app health; used for K8s Liveness and Readiness probes</td></tr>
+              <tr><td><code>@Mock</code> vs <code>@InjectMocks</code></td><td>Phase 6</td><td>`@Mock` creates dummy dependency; `@InjectMocks` injects them into target class</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <script>
+    // Theme Toggle Functionality
+    function toggleTheme() {
+      const body = document.body;
+      const themeBtn = document.getElementById('themeToggleBtn');
+      if (body.classList.contains('lumi-theme-light')) {
+        body.classList.remove('lumi-theme-light');
+        body.classList.add('lumi-theme-dark');
+        themeBtn.innerHTML = '<span class="material-symbols-outlined">light_mode</span> Light Mode';
+      } else {
+        body.classList.remove('lumi-theme-dark');
+        body.classList.add('lumi-theme-light');
+        themeBtn.innerHTML = '<span class="material-symbols-outlined">dark_mode</span> Dark Mode';
+      }
+    }
+
+    // Phase Switcher Tab Logic
+    function switchPhase(phaseId) {
+      document.querySelectorAll('.phase-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.lumi-tab').forEach(el => el.classList.remove('active'));
+
+      const targetPhase = document.getElementById(phaseId);
+      if (targetPhase) {
+        targetPhase.classList.add('active');
+      }
+
+      const tabs = document.querySelectorAll('.lumi-tab');
+      tabs.forEach(tab => {
+        if (tab.getAttribute('onclick').includes(phaseId)) {
+          tab.classList.add('active');
+        }
+      });
+    }
+
+    // View All / Expand All Sections
+    function expandAllSections() {
+      document.querySelectorAll('.phase-content').forEach(el => el.classList.add('active'));
+      document.querySelectorAll('.lumi-tab').forEach(el => el.classList.remove('active'));
+    }
+
+    // Code Snippet Copy Function
+    function copyCode(button) {
+      const block = button.closest('.lumi-code-block');
+      const code = block.querySelector('code').innerText;
+      navigator.clipboard.writeText(code).then(() => {
+        const originalText = button.innerHTML;
+        button.innerHTML = '<span class="material-symbols-outlined">check</span> Copied!';
+        setTimeout(() => {
+          button.innerHTML = originalText;
+        }, 2000);
+      });
+    }
+
+    // Real-time Search Filter
+    function filterContent() {
+      const query = document.getElementById('searchInput').value.toLowerCase();
+      const topicCards = document.querySelectorAll('.topic-card');
+
+      if (query.trim() !== '') {
+        expandAllSections(); // Show all content when searching
+      }
+
+      topicCards.forEach(card => {
+        const text = card.innerText.toLowerCase();
+        if (text.includes(query)) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+  </script>
+</body>
+</html>
+```
